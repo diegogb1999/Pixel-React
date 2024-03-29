@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed;
-    public float jumpForce;
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpForce;
     private float extraHeight = 0.05f;
 
-    public LayerMask layerFloor;
+    [SerializeField] private LayerMask layerFloor;
     private CapsuleCollider2D boxCollider;
     private Rigidbody2D rigidBody;
     private bool lookingRight = true;

@@ -6,19 +6,19 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
 
-    public Animator animator;
-    public Transform attackPointBasicAttack;
-    public Transform attackPointEskill;
-    public LayerMask enemyLayers;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Transform attackPointBasicAttack;
+    [SerializeField] private Transform attackPointEskill;
+    [SerializeField] private LayerMask enemyLayers;
 
-    public float attackRangeBasicAttack; //0.5f
-    public float attackRateBasicAttack; //1.2f
+    [SerializeField] private float attackRangeBasicAttack; //0.5f
+    [SerializeField] private float attackRateBasicAttack; //1.2f
 
-    float nextAttackTime = 0f;
+    float nextAttackTimeBasicAttack = 0f;
 
-    public float attackRangeEskillX; //2.06f
-    public float attackRangeEskillY; //0.67f
-    public float attackRateEskill; //0.2f
+    [SerializeField] private float attackRangeEskillX; //2.06f
+    [SerializeField] private float attackRangeEskillY; //0.67f
+    [SerializeField] private float attackRateEskill; //0.2f
 
     float nextAttackTimeEskill = 0f;
 
@@ -38,7 +38,7 @@ public class PlayerCombat : MonoBehaviour
     }
     void BasicAttack()
     {
-            if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextAttackTime)
+            if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextAttackTimeBasicAttack)
             {
                 animator.SetTrigger("basicAttack");
                 Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPointBasicAttack.position, attackRangeBasicAttack, enemyLayers);
@@ -48,7 +48,7 @@ public class PlayerCombat : MonoBehaviour
                     Debug.Log("hit " + enemy.name);
                 }
 
-                nextAttackTime = Time.time + 1f / attackRateBasicAttack;
+                nextAttackTimeBasicAttack = Time.time + 1f / attackRateBasicAttack;
             }
     }
 
