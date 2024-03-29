@@ -108,7 +108,112 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Cross Slice with VFX_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 76
+        width: 43
+        height: 19
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c62671ce164a26544bfdedadbf0ad00e
+      internalID: -1052925550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cross Slice with VFX_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 57
+        width: 43
+        height: 19
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8158688c8dba9d746b7275d5932ce9a3
+      internalID: -992276249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cross Slice with VFX_2
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 38
+        width: 43
+        height: 19
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57ca6a5d433883a4a9220a5dbdd3833b
+      internalID: -79223164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cross Slice with VFX_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 19
+        width: 43
+        height: 19
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99d500d7ffb66aa4982ec0da2ba326f9
+      internalID: -1312272755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cross Slice with VFX_4
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 43
+        height: 19
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97abb3a14efcff743b41a53e61aa0766
+      internalID: -1982222480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +224,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Cross Slice with VFX_0: -1052925550
+      Cross Slice with VFX_1: -992276249
+      Cross Slice with VFX_2: -79223164
+      Cross Slice with VFX_3: -1312272755
+      Cross Slice with VFX_4: -1982222480
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
