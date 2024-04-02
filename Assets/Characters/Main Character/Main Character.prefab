@@ -46,9 +46,9 @@ GameObject:
   - component: {fileID: -6422981461146506606}
   - component: {fileID: 33239417300908074}
   - component: {fileID: 4829073331662531949}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,9 +219,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7
   jumpForce: 10
+  knockbackSpeed: {x: 6, y: 6}
   layerFloor:
     serializedVersion: 2
     m_Bits: 64
+  canMove: 1
 --- !u!114 &4829073331662531949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,12 +236,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80122975e33152d4180d387349c6209d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 10
   animator: {fileID: 1786457971823854268}
   attackPointBasicAttack: {fileID: 87577097118650985}
   attackPointEskill: {fileID: 4511722845281712101}
   enemyLayers:
     serializedVersion: 2
     m_Bits: 1024
+  knockbackSpeed: {x: 6, y: 6}
   attackRangeBasicAttack: 0.5
   attackRateBasicAttack: 1.2
   attackRangeEskillX: 2.45

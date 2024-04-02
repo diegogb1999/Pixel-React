@@ -6,10 +6,15 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
 
+    [SerializeField] private int hp;
+
+    private PlayerController playerController;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform attackPointBasicAttack;
     [SerializeField] private Transform attackPointEskill;
     [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private Vector2 knockbackSpeed;
+    private Rigidbody2D rigidBody;
 
     [SerializeField] private float attackRangeBasicAttack; //0.5f
     [SerializeField] private float attackRateBasicAttack; //1.2f
@@ -25,7 +30,8 @@ public class PlayerCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerController = GetComponent<PlayerController>();
+        rigidBody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -36,41 +42,23 @@ public class PlayerCombat : MonoBehaviour
         Eskill();
 
     }
+
+    #region Character attacks / skills
+
     void BasicAttack()
     {
-            if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextAttackTimeBasicAttack)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextAttackTimeBasicAttack)
+        {
+            animator.SetTrigger("basicAttack");
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPointBasicAttack.position, attackRangeBasicAttack, enemyLayers);
+
+            foreach (Collider2D enemy in hitEnemies)
             {
-                animator.SetTrigger("basicAttack");
-                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPointBasicAttack.position, attackRangeBasicAttack, enemyLayers);
-
-                foreach (Collider2D enemy in hitEnemies)
-                {
-                    Debug.Log("hit " + enemy.name);
-                }
-
-                nextAttackTimeBasicAttack = Time.time + 1f / attackRateBasicAttack;
+                Debug.Log("hit " + enemy.name);
             }
-    }
 
-    void OnDrawGizmos()
-    {
-
-        if (attackPointBasicAttack != null)
-        {
-
-            Gizmos.DrawWireSphere(attackPointBasicAttack.position, attackRangeBasicAttack);
+            nextAttackTimeBasicAttack = Time.time + 1f / attackRateBasicAttack;
         }
-        
-        if (attackPointEskill != null)
-        {
-            Vector2 hitBoxSize = new Vector2(attackRangeEskillX, attackRangeEskillY); 
-
- 
-            Vector2 hitBoxPosition = new Vector2(attackPointEskill.position.x, attackPointEskill.position.y);
-
-            Gizmos.DrawWireCube(hitBoxPosition, hitBoxSize);
-        }
-
     }
 
     void SecondaryAttack()
@@ -109,4 +97,67 @@ public class PlayerCombat : MonoBehaviour
             nextAttackTimeEskill = Time.time + 1f / attackRateEskill;
         }
     }
+
+    #endregion
+
+    #region Character negative effects
+
+    public void TakeDmg(int dmg, Vector2 pos)
+    {
+        hp -= dmg;
+        StartCoroutine(loseControl());
+        StartCoroutine(desactivateCollision());
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isJumping", false);
+        animator.SetTrigger("hitted");
+        ApplyKnockback(pos);
+    }
+
+    public void ApplyKnockback(Vector2 enemyHit)
+    {
+        rigidBody.velocity = new Vector2(-knockbackSpeed.x * enemyHit.x, knockbackSpeed.y);
+    }
+
+    private IEnumerator loseControl()
+    {
+        playerController.canMove = false;
+        yield return new WaitForSeconds(0.5f);
+        playerController.canMove = true;
+    }
+
+    private IEnumerator desactivateCollision()
+    {
+        Physics2D.IgnoreLayerCollision(8, 10, true);
+        yield return new WaitForSeconds(1.3f);
+        Physics2D.IgnoreLayerCollision(8, 10, false);
+    }
+
+    #endregion
+
+    #region Visualize invisible stuff
+
+    void OnDrawGizmos()
+    {
+        
+        if (attackPointBasicAttack != null)
+        {
+
+            Gizmos.DrawWireSphere(attackPointBasicAttack.position, attackRangeBasicAttack);
+        }
+
+        if (attackPointEskill != null)
+        {
+            Vector2 hitBoxSize = new Vector2(attackRangeEskillX, attackRangeEskillY);
+
+
+            Vector2 hitBoxPosition = new Vector2(attackPointEskill.position.x, attackPointEskill.position.y);
+
+            Gizmos.DrawWireCube(hitBoxPosition, hitBoxSize);
+        }
+
+    }
+
+    #endregion
+
+
 }

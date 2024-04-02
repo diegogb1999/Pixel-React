@@ -8,12 +8,15 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private Vector2 knockbackSpeed;
+
     private float extraHeight = 0.05f;
 
     [SerializeField] private LayerMask layerFloor;
     private CapsuleCollider2D boxCollider;
     private Rigidbody2D rigidBody;
     private bool lookingRight = true;
+    public bool canMove = true;
     private Animator animator;
 
     // Start is called before the first frame update
@@ -31,15 +34,19 @@ public class PlayerController : MonoBehaviour
         jumpPlayer();
         fallingPlayer();
         isLanding();
-
-
     }
 
+    #region Player Movement
     void movePlayer()
     {
+        if (!canMove)
+        {
+            return;
+        }
+
         float inputMovement = Input.GetAxis("Horizontal");
 
-        if (inputMovement != 0f && isTouchingFloor()) 
+        if (inputMovement != 0f && isTouchingFloor() & canMove)
         {
             animator.SetBool("isRunning", true);
         }
@@ -55,11 +62,11 @@ public class PlayerController : MonoBehaviour
 
     void jumpPlayer()
     {
-        if (Input.GetKeyDown(KeyCode.W) && isTouchingFloor())
+        if (Input.GetKeyDown(KeyCode.W) && isTouchingFloor() && canMove)
         {
             animator.SetBool("isJumping", true);
             rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            
+
         }
     }
 
@@ -76,8 +83,8 @@ public class PlayerController : MonoBehaviour
     {
         if (isTouchingFloor() && animator.GetBool("isFalling"))
         {
-            animator.SetBool("isFalling", false);           
-            
+            animator.SetBool("isFalling", false);
+
         }
     }
 
@@ -105,8 +112,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void attackPlayer()
-    {
+    #endregion
 
-    }
+    #region Visualize invisible stuff
+
+    #endregion
+
+    /*public void ApplyKnockback(Vector2 enemyHit)
+        {
+            rigidBody.velocity = new Vector2(-knockbackSpeed.x * enemyHit.x, knockbackSpeed.y);
+        }*/
 }
