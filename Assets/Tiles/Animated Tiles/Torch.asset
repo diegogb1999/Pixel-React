@@ -1,27 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
-  m_Name: Torch
-  m_EditorClassIdentifier: 
-  m_AnimatedSprites:
-  - {fileID: 2042065793, guid: 56fcba3f9a8903b4eacb15af178bbf2e, type: 3}
-  - {fileID: 1388037664, guid: 56fcba3f9a8903b4eacb15af178bbf2e, type: 3}
-  - {fileID: 66431991, guid: 56fcba3f9a8903b4eacb15af178bbf2e, type: 3}
-  - {fileID: -463868457, guid: 56fcba3f9a8903b4eacb15af178bbf2e, type: 3}
-  - {fileID: -1871220430, guid: 56fcba3f9a8903b4eacb15af178bbf2e, type: 3}
-  - {fileID: -1684589865, guid: 56fcba3f9a8903b4eacb15af178bbf2e, type: 3}
-  m_MinSpeed: 5
-  m_MaxSpeed: 10
-  m_AnimationStartTime: 0
-  m_AnimationStartFrame: 0
-  m_TileColliderType: 0
-  m_TileAnimationFlags: 0
+version https://git-lfs.github.com/spec/v1
+oid sha256:24556a648d1e0174739a8b4efbeb4409a1985764ef6ac42e76ed42587f94e23d
+size 995
