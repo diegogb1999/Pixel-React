@@ -6,17 +6,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")]
+
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private Vector2 knockbackSpeed;
-
     private float extraHeight = 0.05f;
+    private bool lookingRight = true;
+    public bool canMove = true;
+
+    [Header("Physics and animations")]
 
     [SerializeField] private LayerMask layerFloor;
     private CapsuleCollider2D boxCollider;
     private Rigidbody2D rigidBody;
-    private bool lookingRight = true;
-    public bool canMove = true;
     private Animator animator;
 
     // Start is called before the first frame update

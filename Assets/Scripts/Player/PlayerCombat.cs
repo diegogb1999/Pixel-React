@@ -6,26 +6,38 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
 
-    [SerializeField] private int hp;
+    [Header("Movement")]
 
-    private PlayerController playerController;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Transform attackPointBasicAttack;
-    [SerializeField] private Transform attackPointEskill;
-    [SerializeField] private LayerMask enemyLayers;
     [SerializeField] private Vector2 knockbackSpeed;
-    private Rigidbody2D rigidBody;
 
+    [Header("Stats")]
+
+    [SerializeField] private int hp;
+    private bool isInvulnerable = false;
+
+    [Header("Basic Attack")]
+
+    [SerializeField] private Transform attackPointBasicAttack;
     [SerializeField] private float attackRangeBasicAttack; //0.5f
     [SerializeField] private float attackRateBasicAttack; //1.2f
+    private float nextAttackTimeBasicAttack = 0f;
 
-    float nextAttackTimeBasicAttack = 0f;
+    [Header("E Skill")]
 
+    [SerializeField] private Transform attackPointEskill;
     [SerializeField] private float attackRangeEskillX; //2.06f
     [SerializeField] private float attackRangeEskillY; //0.67f
     [SerializeField] private float attackRateEskill; //0.2f
+    private float nextAttackTimeEskill = 0f;
 
-    float nextAttackTimeEskill = 0f;
+    [Header("Physics and animations")]
+
+    [SerializeField] private Animator animator;
+    [SerializeField] private LayerMask enemyLayers;
+    private Rigidbody2D rigidBody;
+    private PlayerController playerController;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -104,6 +116,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void TakeDmg(int dmg, Vector2 pos)
     {
+
+        if (isInvulnerable) return;
         hp -= dmg;
         StartCoroutine(loseControl());
         StartCoroutine(desactivateCollision());
@@ -128,7 +142,9 @@ public class PlayerCombat : MonoBehaviour
     private IEnumerator desactivateCollision()
     {
         Physics2D.IgnoreLayerCollision(8, 10, true);
-        yield return new WaitForSeconds(1.3f);
+        isInvulnerable = true;
+        yield return new WaitForSeconds(2f);
+        isInvulnerable = false;
         Physics2D.IgnoreLayerCollision(8, 10, false);
     }
 

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3391395618858301295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3446715675095917002}
+  m_Layer: 10
+  m_Name: Hitbox Gas Attack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3446715675095917002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391395618858301295}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.073, y: -0.079, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9040721859584838230}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5234006670291101854
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6079735354692534337}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point B
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -40,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5003471116659166054}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point A
   m_TagString: Untagged
   m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
@@ -71,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4277275973319309171}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Flower Enemy Pathing AB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,9 +189,45 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4806899818485496163, guid: d3aa3b7cf7c6e31468acf3c293da1090, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3446715675095917002}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7281432021354054669, guid: d3aa3b7cf7c6e31468acf3c293da1090, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4195360030471369961}
   m_SourcePrefab: {fileID: 100100000, guid: d3aa3b7cf7c6e31468acf3c293da1090, type: 3}
+--- !u!95 &5788986244414703824 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8040065642195876837, guid: d3aa3b7cf7c6e31468acf3c293da1090, type: 3}
+  m_PrefabInstance: {fileID: 4594394321685214005}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6543244907382372152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7281432021354054669, guid: d3aa3b7cf7c6e31468acf3c293da1090, type: 3}
+  m_PrefabInstance: {fileID: 4594394321685214005}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4195360030471369961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6543244907382372152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c101fbf447541094f8b2bef96c32b5ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlowerAttackPoint: {fileID: 3446715675095917002}
+  attackRangeFlowerX: 1.6
+  attackRangeFlowerY: 0.9
+  nextAttackTimeFlower: 0.25
+  animator: {fileID: 5788986244414703824}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!4 &9040721859584838230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4806899818485496163, guid: d3aa3b7cf7c6e31468acf3c293da1090, type: 3}

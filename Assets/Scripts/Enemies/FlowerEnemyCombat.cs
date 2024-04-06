@@ -1,0 +1,81 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FlowerEnemyCombat : MonoBehaviour
+{
+
+    [Header("Gas values")]
+
+    [SerializeField] private Transform FlowerAttackPoint;
+    [SerializeField] private float attackRangeFlowerX;
+    [SerializeField] private float attackRangeFlowerY;
+    [SerializeField] private float nextAttackTimeFlower;
+
+    [Header("Physics and animations")]
+
+    [SerializeField] private Animator animator;
+    [SerializeField] private LayerMask playerLayer;
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        GasAttack();
+    }
+
+    void GasAttack()
+    {
+
+        if (Time.time >= nextAttackTimeFlower)
+        {
+            animator.SetTrigger("Attack");
+            StartCoroutine(ApplyGasDamage());
+            nextAttackTimeFlower = Time.time + 5f;
+        }
+    }
+
+    IEnumerator ApplyGasDamage()
+    {
+        float damageInterval = 0.2f;
+
+        float endTime = Time.time + 1f;
+
+        while (Time.time < endTime)
+        {
+            Vector2 hitBoxSize = new Vector2(attackRangeFlowerX, attackRangeFlowerY);
+            Vector2 hitBoxPosition = new Vector2(FlowerAttackPoint.position.x, FlowerAttackPoint.position.y);
+            Collider2D[] hitPlayers = Physics2D.OverlapBoxAll(hitBoxPosition, hitBoxSize, 0, playerLayer);
+
+            foreach (Collider2D player in hitPlayers)
+            {
+                Debug.Log("HIT SMOKE " + player.name);
+                player.gameObject.GetComponent<PlayerCombat>().TakeDmg(0, Vector2.zero);
+            }
+
+            yield return new WaitForSeconds(damageInterval);
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+
+        if (FlowerAttackPoint != null)
+        {
+            Vector2 hitBoxSize = new Vector2(attackRangeFlowerX, attackRangeFlowerY);
+
+
+            Vector2 hitBoxPosition = new Vector2(FlowerAttackPoint.position.x, FlowerAttackPoint.position.y);
+
+            Gizmos.DrawWireCube(hitBoxPosition, hitBoxSize);
+        }
+
+    }
+}

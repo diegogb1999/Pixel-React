@@ -1,25 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class FlowerEnemyController : MonoBehaviour
 {
+    [Header("Movimiento")]
 
-    public GameObject pointA;
-    public GameObject pointB;
-    private Rigidbody2D rb;
-    private Animator anim;
+    [SerializeField] private GameObject pointA;
+    [SerializeField] private GameObject pointB;
+    [SerializeField] private float speed;
     private Transform currentPoint;
-    public float speed;
- 
+
+    [Header("Fisicas y animaciones")]
+    private Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
         currentPoint = pointB.transform;
     }
 
