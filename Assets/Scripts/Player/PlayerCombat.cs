@@ -10,6 +10,14 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] private Vector2 knockbackSpeed;
 
+    [Header("Audio")]
+
+    [SerializeField] private AudioClip basicAttackSound;
+    [SerializeField] private AudioClip eSkillSound;
+    [SerializeField] private AudioClip receiveDmgSound;
+
+    private AudioSource audioSource;
+
     [Header("Stats")]
 
     [SerializeField] private int hp;
@@ -44,6 +52,7 @@ public class PlayerCombat : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         rigidBody = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -62,6 +71,7 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextAttackTimeBasicAttack)
         {
             animator.SetTrigger("basicAttack");
+            audioSource.PlayOneShot(basicAttackSound);
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPointBasicAttack.position, attackRangeBasicAttack, enemyLayers);
 
             foreach (Collider2D enemy in hitEnemies)
@@ -91,6 +101,7 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextAttackTimeEskill)
         {
             animator.SetTrigger("eSkill");
+            audioSource.PlayOneShot(eSkillSound);
 
             // Especifica el tamaño de la hitbox. Aumenta el primer valor para hacerla más ancha.
             // Ajusta el tamaño para hacer la hitbox más larga.
@@ -119,6 +130,7 @@ public class PlayerCombat : MonoBehaviour
 
         if (isInvulnerable) return;
         hp -= dmg;
+        audioSource.PlayOneShot(receiveDmgSound);
         StartCoroutine(loseControl());
         StartCoroutine(desactivateCollision());
         animator.SetBool("isRunning", false);

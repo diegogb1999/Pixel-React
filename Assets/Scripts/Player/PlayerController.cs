@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public string stateName = "Run";
+    public bool isRunningSound = false;
+
     [Header("Movement")]
 
     [SerializeField] private float speed;
@@ -14,6 +17,14 @@ public class PlayerController : MonoBehaviour
     private float extraHeight = 0.05f;
     private bool lookingRight = true;
     public bool canMove = true;
+
+    [Header("Audio")]
+
+    [SerializeField] private AudioClip runningSound;
+    [SerializeField] private AudioClip jumpSound;
+
+    private AudioSource audioSource;
+    private AudioSource runningSource;
 
     [Header("Physics and animations")]
 
@@ -28,6 +39,10 @@ public class PlayerController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
+
+        AudioSource[] sources = GetComponents<AudioSource>();
+        audioSource = sources[0];
+        runningSource = sources[1];
     }
 
     // Update is called once per frame
@@ -52,10 +67,19 @@ public class PlayerController : MonoBehaviour
         if (inputMovement != 0f && isTouchingFloor() & canMove)
         {
             animator.SetBool("isRunning", true);
+            
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) && !isRunningSound)
+            {
+                runningSource.clip = runningSound;
+                runningSource.Play();
+                isRunningSound = true;
+            }
         }
         else
         {
             animator.SetBool("isRunning", false);
+            runningSource.Stop();
+            isRunningSound = false;
         }
 
         rigidBody.velocity = new Vector2(inputMovement * speed, rigidBody.velocity.y);
@@ -67,7 +91,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W) && isTouchingFloor() && canMove)
         {
+            
             animator.SetBool("isJumping", true);
+            audioSource.PlayOneShot(jumpSound);
             rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
         }
@@ -76,18 +102,18 @@ public class PlayerController : MonoBehaviour
     void fallingPlayer()
     {
         if (!isTouchingFloor() && rigidBody.velocity.y < 0)
-        {
+        {        
             animator.SetBool("isFalling", true);
             animator.SetBool("isJumping", false);
+  
         }
     }
 
     void isLanding()
     {
         if (isTouchingFloor() && animator.GetBool("isFalling"))
-        {
-            animator.SetBool("isFalling", false);
-
+        {   
+            animator.SetBool("isFalling", false);   
         }
     }
 

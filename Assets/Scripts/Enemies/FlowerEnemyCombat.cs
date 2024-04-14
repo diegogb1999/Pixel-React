@@ -12,6 +12,11 @@ public class FlowerEnemyCombat : MonoBehaviour
     [SerializeField] private float attackRangeFlowerY;
     [SerializeField] private float nextAttackTimeFlower;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip gasSound;
+    [SerializeField] private AudioClip hittedSound;
+    private AudioSource audioSource;
+
     [Header("Physics and animations")]
 
     [SerializeField] private Animator animator;
@@ -22,7 +27,7 @@ public class FlowerEnemyCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -37,6 +42,7 @@ public class FlowerEnemyCombat : MonoBehaviour
         if (Time.time >= nextAttackTimeFlower)
         {
             animator.SetTrigger("Attack");
+            audioSource.PlayOneShot(gasSound);
             StartCoroutine(ApplyGasDamage());
             nextAttackTimeFlower = Time.time + 5f;
         }
@@ -76,6 +82,5 @@ public class FlowerEnemyCombat : MonoBehaviour
 
             Gizmos.DrawWireCube(hitBoxPosition, hitBoxSize);
         }
-
     }
 }

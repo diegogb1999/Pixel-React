@@ -58,7 +58,9 @@ public class OptionsScript : MonoBehaviour
 
     public void changeVolume(float volume)
     {
-        audioMixer.SetFloat("Volume", Mathf.Log10(volume) * 20);
+        //audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
+        //audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
     }
 
     public void changeQuality(int index)
