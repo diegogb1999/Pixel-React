@@ -16,6 +16,7 @@ public class FlowerEnemyCombat : MonoBehaviour
     [SerializeField] private AudioClip gasSound;
     [SerializeField] private AudioClip hittedSound;
     private AudioSource audioSource;
+    private AudioSource loopSource;
 
     [Header("Physics and animations")]
 
@@ -27,7 +28,9 @@ public class FlowerEnemyCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        AudioSource[] sources = GetComponents<AudioSource>();
+        audioSource = sources[0];
+        loopSource = sources[1];
     }
 
     // Update is called once per frame

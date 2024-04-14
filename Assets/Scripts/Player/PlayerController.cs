@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("isRunning", true);
             
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) && !isRunningSound)
+            if (!isRunningSound)
             {
                 runningSource.clip = runningSound;
                 runningSource.Play();
@@ -77,9 +77,12 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if (isRunningSound)
+            {
+                runningSource.Stop();
+                isRunningSound = false;
+            }
             animator.SetBool("isRunning", false);
-            runningSource.Stop();
-            isRunningSound = false;
         }
 
         rigidBody.velocity = new Vector2(inputMovement * speed, rigidBody.velocity.y);

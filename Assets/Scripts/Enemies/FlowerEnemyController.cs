@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,23 +13,54 @@ public class FlowerEnemyController : MonoBehaviour
     [SerializeField] private float speed;
     private Transform currentPoint;
 
+    [Header("Audio")]
+
+    [SerializeField] private AudioClip movingSound;
+
+    private AudioSource audioSource;
+    private AudioSource loopSource;
+    private bool isMovingSound = false;
+
     [Header("Fisicas y animaciones")]
     private Rigidbody2D rb;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         currentPoint = pointB.transform;
+        animator = GetComponent<Animator>();
+
+        AudioSource[] sources = GetComponents<AudioSource>();
+        audioSource = sources[0];
+        loopSource = sources[1];
     }
 
     // Update is called once per frame
     void Update()
     {
         EnemyPathing();
+        sound();
     }
 
     #region Enemy movement / AI
+
+    private void sound()
+    {
+        bool isMoving = animator.GetCurrentAnimatorStateInfo(0).IsName("Move");
+        if (isMoving && !isMovingSound)
+        {
+            loopSource.clip = movingSound;
+            loopSource.Play();
+            isMovingSound = true;
+        }
+        else if (!isMoving && isMovingSound)
+        {
+            loopSource.Stop();
+            isMovingSound = false;
+        }
+    }
 
     private void EnemyPathing()
     {
