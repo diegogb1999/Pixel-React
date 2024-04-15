@@ -21,6 +21,7 @@ public class PlayerCombat : MonoBehaviour
     [Header("Stats")]
 
     [SerializeField] private int hp;
+
     private bool isInvulnerable = false;
 
     [Header("Basic Attack")]
@@ -28,6 +29,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Transform attackPointBasicAttack;
     [SerializeField] private float attackRangeBasicAttack; //0.5f
     [SerializeField] private float attackRateBasicAttack; //1.2f
+
     private float nextAttackTimeBasicAttack = 0f;
 
     [Header("E Skill")]
@@ -36,18 +38,17 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float attackRangeEskillX; //2.06f
     [SerializeField] private float attackRangeEskillY; //0.67f
     [SerializeField] private float attackRateEskill; //0.2f
+
     private float nextAttackTimeEskill = 0f;
 
     [Header("Physics and animations")]
 
     [SerializeField] private Animator animator;
     [SerializeField] private LayerMask enemyLayers;
+
     private Rigidbody2D rigidBody;
     private PlayerController playerController;
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
         playerController = GetComponent<PlayerController>();
@@ -55,7 +56,6 @@ public class PlayerCombat : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         BasicAttack();

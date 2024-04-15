@@ -4,22 +4,18 @@ using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
-
-    private GameObject enemy;
     private float startTime;
 
     [SerializeField] private Animator animator;
     [SerializeField] private BoxCollider2D collision;
-    // Start is called before the first frame update
+
     void Start()
     {
-        //enemy = GameObject.Find("Flower Enemy Pathing AB");
         animator = GetComponent<Animator>();
         collision = GetComponent<BoxCollider2D>();
         startTime = Time.time;
     }
 
-    // Update is called once per frame
     void Update()
     {
         enemyKilled();

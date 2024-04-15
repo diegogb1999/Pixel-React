@@ -11,6 +11,7 @@ public class FlowerEnemyController : MonoBehaviour
     [SerializeField] private GameObject pointA;
     [SerializeField] private GameObject pointB;
     [SerializeField] private float speed;
+
     private Transform currentPoint;
 
     [Header("Audio")]
@@ -19,13 +20,14 @@ public class FlowerEnemyController : MonoBehaviour
 
     private AudioSource audioSource;
     private AudioSource loopSource;
+
     private bool isMovingSound = false;
 
     [Header("Fisicas y animaciones")]
+
     private Rigidbody2D rb;
     private Animator animator;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -37,7 +39,6 @@ public class FlowerEnemyController : MonoBehaviour
         loopSource = sources[1];
     }
 
-    // Update is called once per frame
     void Update()
     {
         EnemyPathing();
@@ -49,6 +50,7 @@ public class FlowerEnemyController : MonoBehaviour
     private void sound()
     {
         bool isMoving = animator.GetCurrentAnimatorStateInfo(0).IsName("Move");
+
         if (isMoving && !isMovingSound)
         {
             loopSource.clip = movingSound;

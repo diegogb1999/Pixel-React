@@ -5,21 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class FinishPointScript : MonoBehaviour
 {
+    [Header("Physics and animations")]
 
     [SerializeField] private Animator animator;
-    [SerializeField] private BoxCollider2D collision;
 
-    private AudioSource audioSource;
+    [Header("Audio")]
+
     [SerializeField] private AudioClip finishSound;
 
+    private AudioSource audioSource;
     private bool isActivated = false;
 
-    // Start is called before the first frame update
+ 
     void Start()
     {
-        //enemy = GameObject.Find("Flower Enemy Pathing AB");
         animator = GetComponent<Animator>();
-        collision = GetComponent<BoxCollider2D>();
         audioSource = GetComponent<AudioSource>();
 
     }
@@ -34,7 +34,7 @@ public class FinishPointScript : MonoBehaviour
         }
     }
 
-    IEnumerator EsperarMientrasCondicion()
+    IEnumerator WaitWhileCondition()
     {
         animator.SetTrigger("endGame");
         audioSource.PlayOneShot(finishSound);
@@ -42,7 +42,7 @@ public class FinishPointScript : MonoBehaviour
         yield return new WaitForSeconds(5f);
 
         UnlockNewLevel();
-        GameManager.instance.NextLevel();
+        GameManager.instance.LoadScene();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -50,7 +50,7 @@ public class FinishPointScript : MonoBehaviour
         if (!isActivated && collision.CompareTag("Player"))
         {
             isActivated = true;
-            StartCoroutine(EsperarMientrasCondicion());           
+            StartCoroutine(WaitWhileCondition());           
         }
  
     }

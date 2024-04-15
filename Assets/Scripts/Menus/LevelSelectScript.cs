@@ -4,14 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LevelSelectManager : MonoBehaviour
+public class LevelSelectScript : MonoBehaviour
 {
-
-    public static int currentLevel;
-
     public Button[] buttons;
     public GameObject levelButtons;
-
 
     private void Awake()
     {
@@ -29,22 +25,9 @@ public class LevelSelectManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnClickLevel(int level)
     {
-        currentLevel = level;
-        SceneManager.LoadScene(currentLevel);
+        GameManager.instance.LoadScene(level);
     }
 
     void ButtonsToArray()

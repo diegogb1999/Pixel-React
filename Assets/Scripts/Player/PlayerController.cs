@@ -6,17 +6,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public string stateName = "Run";
-    public bool isRunningSound = false;
-
     [Header("Movement")]
 
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private Vector2 knockbackSpeed;
+    public bool canMove = true;
+
     private float extraHeight = 0.05f;
     private bool lookingRight = true;
-    public bool canMove = true;
 
     [Header("Audio")]
 
@@ -25,15 +23,16 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource audioSource;
     private AudioSource runningSource;
+    public bool isRunningSound = false;
 
     [Header("Physics and animations")]
 
     [SerializeField] private LayerMask layerFloor;
+
     private CapsuleCollider2D boxCollider;
     private Rigidbody2D rigidBody;
     private Animator animator;
 
-    // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -45,7 +44,6 @@ public class PlayerController : MonoBehaviour
         runningSource = sources[1];
     }
 
-    // Update is called once per frame
     void Update()
     {
         movePlayer();

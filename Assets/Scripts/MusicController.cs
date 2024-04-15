@@ -6,22 +6,22 @@ using UnityEngine.SceneManagement;
 public class MusicController : MonoBehaviour
 {
     public static MusicController instance;
+
+    [SerializeField] private AudioClip startMenuMusic;
+    [SerializeField] private AudioClip level1Music;
+    [SerializeField] private AudioClip level2Music;
+    [SerializeField] private AudioClip level3Music;
+
     private AudioSource audioSource;
-    public AudioClip startMenuMusic;
-    public AudioClip level1Music;
-    public AudioClip level2Music;
-    public AudioClip level3Music;
 
     private void Awake()
     {
-
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
             audioSource = GetComponent<AudioSource>();
-            SceneManager.sceneLoaded += OnSceneLoaded;  // Suscribirse al evento de carga de escenas
-
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -34,7 +34,7 @@ public class MusicController : MonoBehaviour
         PlayMusicForScene(scene.name);
     }
 
-     void PlayMusicForScene(string sceneName)
+    void PlayMusicForScene(string sceneName)
     {
         AudioClip clip = GetAudioClipForScene(sceneName);
         if (clip != null)
@@ -73,6 +73,6 @@ public class MusicController : MonoBehaviour
 
     void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;  // Desuscribirse cuando el objeto sea destruido
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
