@@ -64,7 +64,7 @@ public class MyRes
 
 public class OptionsScript : MonoBehaviour
 {
-    [Header("Resolution & Graphics")]
+   [Header("Resolution & Graphics")]
 
     public Dropdown resolutionDropdown;
     public Dropdown graphicsDropdown;
@@ -75,6 +75,7 @@ public class OptionsScript : MonoBehaviour
 
     [Header("Audio")]
 
+    [SerializeField] private Slider masterSlider;
     [SerializeField] private AudioMixer audioMixer;
 
     private bool IsValid(MyRes option)
@@ -104,6 +105,14 @@ public class OptionsScript : MonoBehaviour
 
     private void Start()
     {
+        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
+
+        masterSlider.onValueChanged.AddListener(value => {
+            PlayerPrefs.SetFloat("MasterVolume", value);
+        });
+
+        aa();
+
         int currentGraphicsLevel = PlayerPrefs.GetInt(graphicsLevelKey, 2);
         graphicsDropdown.value = currentGraphicsLevel;
         graphicsDropdown.RefreshShownValue();
@@ -138,6 +147,18 @@ public class OptionsScript : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
+    public void aa()
+    {
+        float sliderMaster = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
+        float sliderVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
+        float sliderSFX = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+ 
+        audioMixer.SetFloat("Master", (sliderMaster == 0 ? -80 : Mathf.Log10(sliderMaster)) * 20);
+        audioMixer.SetFloat("Music", (sliderVolume == 0 ? -80 : Mathf.Log10(sliderVolume)) * 20);
+        audioMixer.SetFloat("SFX", (sliderSFX == 0 ? -80 : Mathf.Log10(sliderSFX)) * 20);
+
+    }
+
     public void setResolution(int index)
     {
         Resolution resolution = validResolutions[index];
@@ -151,7 +172,9 @@ public class OptionsScript : MonoBehaviour
 
     public void changeVolume(float volume)
     {
+        PlayerPrefs.SetFloat("MasterVolume", volume);
         audioMixer.SetFloat("Master", (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
+        
     }
 
     public void changeQuality(int index)

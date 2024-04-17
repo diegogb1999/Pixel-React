@@ -23,9 +23,8 @@ public class PauseMenuScript : MonoBehaviour
     [SerializeField] private Image MusicIcon;
     [SerializeField] private Sprite MusicOff;
     [SerializeField] private Sprite MusicOn;
-    [SerializeField] private AudioMixer audioMixer;
 
-    [Header("Audio")]
+    [SerializeField] private AudioMixer audioMixer;
 
     private const string SFXVolumeKey = "SFXVolume";
     private const string MusicVolumeKey = "MusicVolume";
@@ -68,8 +67,8 @@ public class PauseMenuScript : MonoBehaviour
 
     private void LoadSettings()
     {
-        SFXSlider.value = PlayerPrefs.GetFloat(SFXVolumeKey, 0.5f);  
-        MusicSlider.value = PlayerPrefs.GetFloat(MusicVolumeKey, 0.5f);
+        SFXSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.5f);  
+        MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
     }
 
     private void UpdateIcon(Slider slider, Image icon, Sprite offIcon, Sprite onIcon)
@@ -79,11 +78,13 @@ public class PauseMenuScript : MonoBehaviour
 
     public void changeSFX(float volume)
     {
+        PlayerPrefs.SetFloat("SFXVolume", volume);
         audioMixer.SetFloat("SFX", (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
     }
 
     public void changeMusic(float volume)
     {
+        PlayerPrefs.SetFloat("MusicVolume", volume);
         audioMixer.SetFloat("Music", (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
     }
 
