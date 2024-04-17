@@ -151,7 +151,7 @@ public class OptionsScript : MonoBehaviour
 
     public void changeVolume(float volume)
     {
-        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("Master", (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
     }
 
     public void changeQuality(int index)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AdditionalOptionsScript : MonoBehaviour
 {
+    /*
     // Start is called before the first frame update
     [SerializeField] private GameObject pauseMenu;
     public PauseMenuScript pauseMenuScript;
@@ -23,5 +24,5 @@ public class AdditionalOptionsScript : MonoBehaviour
                 pauseMenuScript.Pause();
             }
         }
-    }
+    }*/
 }
