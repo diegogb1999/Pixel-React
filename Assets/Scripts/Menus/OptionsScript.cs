@@ -105,13 +105,13 @@ public class OptionsScript : MonoBehaviour
 
     private void Start()
     {
+        InitializeSound();
+
         masterSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
 
         masterSlider.onValueChanged.AddListener(value => {
             changeVolume(value);
         });
-
-        InitializeSound();
 
         int currentGraphicsLevel = PlayerPrefs.GetInt(graphicsLevelKey, 2);
         graphicsDropdown.value = currentGraphicsLevel;
