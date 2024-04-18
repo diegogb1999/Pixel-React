@@ -108,10 +108,10 @@ public class OptionsScript : MonoBehaviour
         masterSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
 
         masterSlider.onValueChanged.AddListener(value => {
-            PlayerPrefs.SetFloat("MasterVolume", value);
+            changeVolume(value);
         });
 
-        aa();
+        InitializeSound();
 
         int currentGraphicsLevel = PlayerPrefs.GetInt(graphicsLevelKey, 2);
         graphicsDropdown.value = currentGraphicsLevel;
@@ -147,12 +147,16 @@ public class OptionsScript : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
-    public void aa()
+    public void InitializeSound()
     {
         float sliderMaster = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
         float sliderVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
         float sliderSFX = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
- 
+
+        PlayerPrefs.SetFloat("MasterVolume", sliderMaster);
+        PlayerPrefs.SetFloat("MusicVolume", sliderVolume);
+        PlayerPrefs.SetFloat("SFXVolume", sliderSFX);
+
         audioMixer.SetFloat("Master", (sliderMaster == 0 ? -80 : Mathf.Log10(sliderMaster)) * 20);
         audioMixer.SetFloat("Music", (sliderVolume == 0 ? -80 : Mathf.Log10(sliderVolume)) * 20);
         audioMixer.SetFloat("SFX", (sliderSFX == 0 ? -80 : Mathf.Log10(sliderSFX)) * 20);

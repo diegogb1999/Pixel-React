@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -26,21 +27,20 @@ public class PauseMenuScript : MonoBehaviour
 
     [SerializeField] private AudioMixer audioMixer;
 
-    private const string SFXVolumeKey = "SFXVolume";
-    private const string MusicVolumeKey = "MusicVolume";
-
     void Start()
     {
         LoadSettings();
 
         SFXSlider.onValueChanged.AddListener(value => {
-            PlayerPrefs.SetFloat(SFXVolumeKey, value);
+            changeSFX(value);
             UpdateIcon(SFXSlider, SFXicon, SFXoff, SFXon);
         });
         MusicSlider.onValueChanged.AddListener(value => {
-            PlayerPrefs.SetFloat(MusicVolumeKey, value);
+            changeMusic(value);
             UpdateIcon(MusicSlider, MusicIcon, MusicOff, MusicOn);
         });
+
+        //LoadSettings();
 
         UpdateIcon(SFXSlider, SFXicon, SFXoff, SFXon);
         UpdateIcon(MusicSlider, MusicIcon, MusicOff, MusicOn);
@@ -67,7 +67,7 @@ public class PauseMenuScript : MonoBehaviour
 
     private void LoadSettings()
     {
-        SFXSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.5f);  
+        SFXSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
         MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
     }
 
