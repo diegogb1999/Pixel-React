@@ -113,7 +113,7 @@ public class FlowerEnemyController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Knockback");
-            other.gameObject.GetComponent<PlayerCombat>().TakeDmg(0, other.GetContact(0).normal);
+            other.gameObject.GetComponent<PlayerCombat>().TakeDmg(2, other.GetContact(0).normal);
         }
     }
 

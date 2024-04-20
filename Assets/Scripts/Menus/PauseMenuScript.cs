@@ -27,6 +27,10 @@ public class PauseMenuScript : MonoBehaviour
 
     [SerializeField] private AudioMixer audioMixer;
 
+    [SerializeField] private AudioClip restartSound;
+    [SerializeField] private AudioClip homeSound;
+    [SerializeField] private AudioClip resumeSound;
+
     void Start()
     {
         LoadSettings();

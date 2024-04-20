@@ -20,7 +20,7 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Stats")]
 
-    [SerializeField] private int hp;
+    [SerializeField] private LayoutPlayer healthBar;
 
     private bool isInvulnerable = false;
 
@@ -129,7 +129,8 @@ public class PlayerCombat : MonoBehaviour
     {
 
         if (isInvulnerable) return;
-        hp -= dmg;
+
+        healthBar.updateHp(dmg);
         audioSource.PlayOneShot(receiveDmgSound);
         StartCoroutine(loseControl());
         StartCoroutine(desactivateCollision());
