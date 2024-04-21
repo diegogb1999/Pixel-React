@@ -9,7 +9,7 @@ public class OptionsScript : MonoBehaviour
     [Header("Resolution & Graphics")]
     [SerializeField] public Dropdown graphicsDropdown;
     [SerializeField] public Dropdown resolutionDropdown;
-    private readonly int[] validRefreshRates = { 60, 120, 100, 144, 240 };
+    private readonly int[] validRefreshRates = { 60, 120, 144, 240 };
     private List<Resolution> validResolutions;
 
     [Header("Sound")]
