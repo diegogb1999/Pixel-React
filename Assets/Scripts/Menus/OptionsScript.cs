@@ -1,57 +1,41 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Linq;
 
 public class OptionsScript : MonoBehaviour
 {
     [Header("Resolution & Graphics")]
-    private string graphicsLevelKey = "GraphicsLevel";
-    public Dropdown graphicsDropdown;
-    public Dropdown resolutionDropdown;
+    [SerializeField] public Dropdown graphicsDropdown;
+    [SerializeField] public Dropdown resolutionDropdown;
+    private readonly int[] validRefreshRates = { 60, 120, 144, 240 };
     private List<Resolution> validResolutions;
-    private static readonly List<int> validRefreshRates = new List<int> { 60, 75, 120, 144, 240 };
 
-    [Header("Audio")]
+    [Header("Sound")]
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
 
-    private bool IsValid(MyRes option)
-    {
-        int width = option.width;
-        int height = option.height;
-        int refreshRate = option.refreshRate;
+    [Header("PlayerPrefs & AudioMixer")]
+    private readonly string graphicsLevelKey = "GraphicsLevel";
+    private readonly string masterPrefKey = "MasterVolume";
+    private readonly string musicPrefKey = "MusicVolume";
+    private readonly string sfxPrefKey = "SFXVolume";
+    private readonly string masterMixerKey = "Master";
+    private readonly string musicMixerKey = "Music";
+    private readonly string sfxMixerKey = "SFX";
 
-        if (refreshRate > Screen.currentResolution.refreshRateRatio.value + 1)    //sumandole 1 arreglamos los valores decimales como 59.9 sin que afecte a la condicion, y nos ahorramos una funcion de parseo compleja
-        {
-            return false;
-        }
-
-        if (!validRefreshRates.Contains(option.refreshRate))
-        {
-            return false;
-        }
-
-        if (height < 720) //si la pantalla es de peor calidad que HD no va a tener más de 60HZ
-        {
-            if (refreshRate > 60)
-                return false;
-        }
-
-        return true;
-    }
+    [Header("FPS display")]
+    public Text fpsText;
+    public float updateRate = 0.5f;
+    private float lastUpdate = 0f;
+    private float frames = 0f;
+    private float fps = 0f;
 
     private void Start()
     {
-
-        if (Screen.sleepTimeout > 5)
-        {
-            Debug.Log("hello");
-        }
-
-
         InitializeSound();
         InitializeSliders();
 
@@ -89,6 +73,40 @@ public class OptionsScript : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
+    void Update()
+    {
+        frames++;
+        float currentTime = Time.realtimeSinceStartup;
+        if (currentTime - lastUpdate >= updateRate)
+        {
+            fps = frames / (currentTime - lastUpdate);
+            fpsText.text = Mathf.RoundToInt(fps) + " FPS";
+            frames = 0;
+            lastUpdate = currentTime;
+        }
+    }
+
+    private bool IsValid(MyRes option)
+    {
+        int refreshRate = option.refreshRate;
+        bool result = true;
+
+        if (refreshRate > Screen.currentResolution.refreshRateRatio.value + 1)  //sumandole 1 arreglamos los valores decimales como 59.9 sin que afecte a la condicion, y nos ahorramos una funcion de parseo compleja
+        {
+            result = false;
+        }
+        else if (!validRefreshRates.Contains(option.refreshRate))
+        {
+            result = false;
+        }
+        else if (option.height < 720 && refreshRate > 60)  //si la pantalla es de peor calidad que HD no va a tener más de 60HZ
+        {
+            result = false;
+        }
+
+        return result;
+    }
+
     public void setFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
@@ -100,6 +118,7 @@ public class OptionsScript : MonoBehaviour
     {
         Resolution resolution = validResolutions[index];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        Application.targetFrameRate = (int)resolution.refreshRateRatio.value;
     }
 
     public void changeQuality(int index)
@@ -109,50 +128,50 @@ public class OptionsScript : MonoBehaviour
 
     public void changeMasterVolume(float volume)
     {
-        PlayerPrefs.SetFloat("MasterVolume", volume);
-        audioMixer.SetFloat("Master", (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
+        PlayerPrefs.SetFloat(masterPrefKey, volume);
+        audioMixer.SetFloat(masterMixerKey, (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
     }
 
     public void changeMusicVolume(float volume)
     {
-        PlayerPrefs.SetFloat("MusicVolume", volume);
-        audioMixer.SetFloat("Music", (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
+        PlayerPrefs.SetFloat(musicPrefKey, volume);
+        audioMixer.SetFloat(musicMixerKey, (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
     }
 
     public void changeSfxVolume(float volume)
     {
-        PlayerPrefs.SetFloat("SFXVolume", volume);
-        audioMixer.SetFloat("SFX", (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
+        PlayerPrefs.SetFloat(sfxPrefKey, volume);
+        audioMixer.SetFloat(sfxMixerKey, (volume == 0 ? -80 : Mathf.Log10(volume)) * 20);
     }
 
     public void InitializeSound()
     {
-        float masterSliderValue = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
-        float musicSliderValue = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
-        float SfxSliderValue = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+        float masterVolume = PlayerPrefs.GetFloat(masterPrefKey, 0.5f);
+        float musicVolume = PlayerPrefs.GetFloat(musicPrefKey, 0.5f);
+        float SfxVolume = PlayerPrefs.GetFloat(sfxPrefKey, 0.5f);
 
-        PlayerPrefs.SetFloat("MasterVolume", masterSliderValue);
-        PlayerPrefs.SetFloat("MusicVolume", musicSliderValue);
-        PlayerPrefs.SetFloat("SFXVolume", SfxSliderValue);
+        PlayerPrefs.SetFloat(masterPrefKey, masterVolume);
+        PlayerPrefs.SetFloat(musicPrefKey, musicVolume);
+        PlayerPrefs.SetFloat(sfxPrefKey, SfxVolume);
 
-        audioMixer.SetFloat("Master", (masterSliderValue == 0 ? -80 : Mathf.Log10(masterSliderValue)) * 20);
-        audioMixer.SetFloat("Music", (musicSliderValue == 0 ? -80 : Mathf.Log10(musicSliderValue)) * 20);
-        audioMixer.SetFloat("SFX", (SfxSliderValue == 0 ? -80 : Mathf.Log10(SfxSliderValue)) * 20);
+        audioMixer.SetFloat(masterMixerKey, (masterVolume == 0 ? -80 : Mathf.Log10(masterVolume)) * 20);
+        audioMixer.SetFloat(musicMixerKey, (musicVolume == 0 ? -80 : Mathf.Log10(musicVolume)) * 20);
+        audioMixer.SetFloat(sfxMixerKey, (SfxVolume == 0 ? -80 : Mathf.Log10(SfxVolume)) * 20);
     }
 
     public void InitializeSliders()
     {
-        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
+        masterSlider.value = PlayerPrefs.GetFloat(masterPrefKey, 0.5f);
         masterSlider.onValueChanged.AddListener(value =>
         {
             changeMasterVolume(value);
         });
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
+        musicSlider.value = PlayerPrefs.GetFloat(musicPrefKey, 0.5f);
         musicSlider.onValueChanged.AddListener(value =>
         {
             changeMusicVolume(value);
         });
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+        sfxSlider.value = PlayerPrefs.GetFloat(sfxPrefKey, 0.5f);
         sfxSlider.onValueChanged.AddListener(value =>
         {
             changeSfxVolume(value);
@@ -171,9 +190,9 @@ public class MyRes
     public string name;
 
     [Header("Settings")]
-    private bool resEnabled = true;
-    private bool ratioEnabled = false;
-    private bool resNameEnabled = true;
+    private readonly bool resEnabled = true;
+    private readonly bool ratioEnabled = false;
+    private readonly bool resNameEnabled = true;
 
     private static readonly Dictionary<int, string> resNames = new Dictionary<int, string>
     {
@@ -182,6 +201,7 @@ public class MyRes
         { 1080, "FHD" },
         { 1440, "2K" },
         { 2160, "4K" },
+        { 4320, "nasa" },
     };
 
     public MyRes(Resolution res)
