@@ -63,7 +63,7 @@ public class FlowerEnemyCombat : MonoBehaviour
             foreach (Collider2D player in hitPlayers)
             {
                 Debug.Log("HIT SMOKE " + player.name);
-                player.gameObject.GetComponent<PlayerCombat>().TakeDmg(0, Vector2.zero);
+                player.gameObject.GetComponent<PlayerCombat>().TakeDmg(4, Vector2.zero);
             }
 
             yield return new WaitForSeconds(damageInterval);

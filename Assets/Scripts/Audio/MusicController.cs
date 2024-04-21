@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MusicController : MonoBehaviour
 {
@@ -12,7 +13,10 @@ public class MusicController : MonoBehaviour
     [SerializeField] private AudioClip level2Music;
     [SerializeField] private AudioClip level3Music;
 
+    [SerializeField] private AudioClip defaultButtonHoverSound;
+
     private AudioSource audioSource;
+    private AudioSource audioSourceEffect;
 
     private void Awake()
     {
@@ -20,12 +24,26 @@ public class MusicController : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            audioSource = GetComponent<AudioSource>();
+            AudioSource[] sources = GetComponents<AudioSource>();
+            audioSource = sources[0];
+            audioSourceEffect = sources[1];
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        // Encuentra todos los botones en la escena
+        Button[] buttons = FindObjectsOfType<Button>(true);
+
+        foreach (Button button in buttons)
+        {
+            // Añade un listener que llama al método PlayEffect en SoundController cuando el cursor entra en el botón
+            button.onClick.AddListener(() => MusicController.instance.playEffect(MusicController.instance.defaultButtonHoverSound));
         }
     }
 
@@ -69,6 +87,12 @@ public class MusicController : MonoBehaviour
             default:
                 return null;
         }
+    }
+
+    public void playEffect(AudioClip clip)
+    {
+        audioSourceEffect.PlayOneShot(clip);
+
     }
 
     void OnDestroy()

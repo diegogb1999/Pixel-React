@@ -2,9 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerCombat : MonoBehaviour
 {
+    public float hp;
+    private float maxHp = 10;
+    public Image fill;
+    public PauseMenuScript pauseMenuScript;
+    public GameObject soundManager;
 
     [Header("Movement")]
 
@@ -15,14 +22,18 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private AudioClip basicAttackSound;
     [SerializeField] private AudioClip eSkillSound;
     [SerializeField] private AudioClip receiveDmgSound;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip finishSound;
 
     private AudioSource audioSource;
+    private AudioSource runningSource;
 
     [Header("Stats")]
 
-    [SerializeField] private int hp;
+    [SerializeField] private LayoutPlayer healthBar;
 
     private bool isInvulnerable = false;
+    private bool isDead = false;
 
     [Header("Basic Attack")]
 
@@ -51,17 +62,44 @@ public class PlayerCombat : MonoBehaviour
 
     void Start()
     {
+        Physics2D.IgnoreLayerCollision(8, 10, false);
+        hp = maxHp;
+        UpdateHealthBar();
         playerController = GetComponent<PlayerController>();
         rigidBody = GetComponent<Rigidbody2D>();
-        audioSource = GetComponent<AudioSource>();
+        soundManager = GameObject.Find("SoundManager");
+        AudioSource[] sources = GetComponents<AudioSource>();
+        audioSource = sources[0];
+        runningSource = sources[1];
     }
 
     void Update()
     {
-        BasicAttack();
-        SecondaryAttack();
-        Eskill();
+        if (!isDead && playerController.canMove)
+        {
+            BasicAttack();
+            SecondaryAttack();
+            Eskill();
+        }
+       
 
+    }
+
+    public void updateHp(int amount)
+    {
+        hp -= amount;
+        hp = Mathf.Clamp(hp, 0, maxHp);
+        UpdateHealthBar();
+        if (hp <= 0)
+        {
+            StartCoroutine(Death());
+        }
+    }
+
+    private void UpdateHealthBar()
+    {
+        float targetFillAmount = hp / maxHp;
+        fill.fillAmount = targetFillAmount;
     }
 
     #region Character attacks / skills
@@ -125,18 +163,61 @@ public class PlayerCombat : MonoBehaviour
 
     #region Character negative effects
 
+    public IEnumerator Death()
+    {
+        if (hp <= 0)
+        {
+            isDead = true;
+
+            animator.SetTrigger("isDead");
+
+            runningSource.mute = true;
+
+            playerController.canMove = false;
+
+            rigidBody.velocity = Vector2.zero;
+
+            rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+
+            Physics2D.IgnoreLayerCollision(8, 10, true);
+            isInvulnerable = true;
+
+            soundManager.GetComponent<AudioSource>().volume = 0.05f;
+
+            audioSource.PlayOneShot(deathSound);
+
+            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length + 1);
+
+            audioSource.PlayOneShot(finishSound);
+
+            yield return new WaitForSeconds(finishSound.length + 2);
+
+            GameManager.instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        
+    }
+
     public void TakeDmg(int dmg, Vector2 pos)
     {
 
         if (isInvulnerable) return;
-        hp -= dmg;
+
+        updateHp(dmg);
+
         audioSource.PlayOneShot(receiveDmgSound);
-        StartCoroutine(loseControl());
-        StartCoroutine(desactivateCollision());
+     
+
         animator.SetBool("isRunning", false);
         animator.SetBool("isJumping", false);
         animator.SetTrigger("hitted");
         ApplyKnockback(pos);
+
+        if (isDead) return;
+
+        StartCoroutine(loseControl());
+        StartCoroutine(desactivateCollision());
+        
     }
 
     public void ApplyKnockback(Vector2 enemyHit)

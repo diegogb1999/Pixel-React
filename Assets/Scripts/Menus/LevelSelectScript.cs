@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 public class LevelSelectScript : MonoBehaviour
 {
@@ -28,6 +30,7 @@ public class LevelSelectScript : MonoBehaviour
     public void OnClickLevel(int level)
     {
         GameManager.instance.LoadScene(level);
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().enabled = false;
     }
 
     void ButtonsToArray()
