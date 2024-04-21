@@ -9,7 +9,7 @@ public class OptionsScript : MonoBehaviour
     [Header("Resolution & Graphics")]
     [SerializeField] public Dropdown graphicsDropdown;
     [SerializeField] public Dropdown resolutionDropdown;
-    private readonly int[] validRefreshRates = { 60, 120, 144, 240 };
+    private readonly int[] validRefreshRates = { 60, 120, 100, 144, 240 };
     private List<Resolution> validResolutions;
 
     [Header("Sound")]
@@ -107,9 +107,14 @@ public class OptionsScript : MonoBehaviour
         return result;
     }
 
-    public void setFullscreen(bool isFullscreen)
+    public void toggleFullscreen()
     {
-        Screen.fullScreen = isFullscreen;
+        Screen.fullScreen = !Screen.fullScreen;
+        centerWindow();
+    }
+
+    private void centerWindow()
+    {
         Vector2Int centerOfScreen = new Vector2Int(Screen.width / 2, Screen.height / 2);
         Screen.MoveMainWindowTo(Screen.mainWindowDisplayInfo, centerOfScreen);
     }
@@ -117,13 +122,14 @@ public class OptionsScript : MonoBehaviour
     public void setResolution(int index)
     {
         Resolution resolution = validResolutions[index];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-        Application.targetFrameRate = (int)resolution.refreshRateRatio.value;
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreenMode, resolution.refreshRateRatio);
+        Application.targetFrameRate = (int)resolution.refreshRateRatio.value;   //esto es necesario pq en la anterior funcion no lo cambia
     }
 
     public void changeQuality(int index)
     {
         QualitySettings.SetQualityLevel(index);
+        QualitySettings.vSyncCount = 0; //sin esto los fps van por libre
     }
 
     public void changeMasterVolume(float volume)
