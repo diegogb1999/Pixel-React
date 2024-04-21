@@ -9,9 +9,9 @@ public class PlayerCombat : MonoBehaviour
 {
     public float hp;
     private float maxHp = 10;
-    public Image fill;
-    public PauseMenuScript pauseMenuScript;
-    public GameObject soundManager;
+    private Image fill;
+    private PauseMenuScript pauseMenuScript;
+    private GameObject soundManager;
 
     [Header("Movement")]
 
@@ -29,8 +29,6 @@ public class PlayerCombat : MonoBehaviour
     private AudioSource runningSource;
 
     [Header("Stats")]
-
-    [SerializeField] private LayoutPlayer healthBar;
 
     private bool isInvulnerable = false;
     private bool isDead = false;
@@ -62,10 +60,12 @@ public class PlayerCombat : MonoBehaviour
 
     void Start()
     {
+        fill = GameObject.Find("Canvas Pause Menu/HealthBar/Fill Area/Fill HP").GetComponent<Image>();
+        pauseMenuScript = GameObject.Find("Canvas Pause Menu").GetComponent<PauseMenuScript>();
+        playerController = GetComponent<PlayerController>();
         Physics2D.IgnoreLayerCollision(8, 10, false);
         hp = maxHp;
         UpdateHealthBar();
-        playerController = GetComponent<PlayerController>();
         rigidBody = GetComponent<Rigidbody2D>();
         soundManager = GameObject.Find("SoundManager");
         AudioSource[] sources = GetComponents<AudioSource>();

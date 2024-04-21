@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private Vector2 knockbackSpeed;
-    public bool canMove = true; 
+    public bool canMove { get; set; } = true; 
 
     private float extraHeight = 0.05f;
     private bool lookingRight = true;
