@@ -205,8 +205,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.11418781, y: -0.0002245903}
-  m_Size: {x: 0.79761404, y: 1.2064383}
+  m_Offset: {x: 0.11418781, y: 0.008362114}
+  m_Size: {x: 0.79761404, y: 1.1892649}
   m_Direction: 0
 --- !u!114 &33239417300908074
 MonoBehaviour:
@@ -220,14 +220,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af1db8362f5eb7546bcc2f5e854e388f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateName: Run
-  isRunningSound: 0
   speed: 7
   jumpForce: 10
   knockbackSpeed: {x: 6, y: 6}
   canMove: 1
   runningSound: {fileID: 8300000, guid: d4fb182f2ff684941b2ec81496d4f3b7, type: 3}
   jumpSound: {fileID: 8300000, guid: 1a5fd5a18f09c0747934df763e7c9139, type: 3}
+  isRunningSound: 0
   layerFloor:
     serializedVersion: 2
     m_Bits: 64
@@ -243,11 +242,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80122975e33152d4180d387349c6209d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 10
+  fill: {fileID: 0}
+  pauseMenuScript: {fileID: 0}
   knockbackSpeed: {x: 6, y: 6}
   basicAttackSound: {fileID: 8300000, guid: 3abbde790de4afc419baecff9f1eefae, type: 3}
   eSkillSound: {fileID: 8300000, guid: 2f7e77d72f53bb1468017d4b7d2f02bd, type: 3}
   receiveDmgSound: {fileID: 8300000, guid: b59a63f6148b0b9419aa6a918301039b, type: 3}
-  hp: 10
+  deathSound: {fileID: 8300000, guid: 704c3c74f843fae4e929af25a3c83d6d, type: 3}
+  finishSound: {fileID: 8300000, guid: 4c480965516e415498e96ec5045aee3b, type: 3}
+  healthBar: {fileID: 0}
   attackPointBasicAttack: {fileID: 87577097118650985}
   attackRangeBasicAttack: 0.5
   attackRateBasicAttack: 1.2
