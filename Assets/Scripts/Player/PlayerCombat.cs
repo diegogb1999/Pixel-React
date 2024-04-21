@@ -60,7 +60,7 @@ public class PlayerCombat : MonoBehaviour
 
     void Start()
     {
-        fill = GameObject.Find("Canvas Pause Menu/HealthBar/Fill Area/Fill HP").GetComponent<Image>();
+        fill = GameObject.Find("Canvas Pause Menu/GameUI/HealthBar/Fill Area/Fill HP").GetComponent<Image>();
         pauseMenuScript = GameObject.Find("Canvas Pause Menu").GetComponent<PauseMenuScript>();
         playerController = GetComponent<PlayerController>();
         Physics2D.IgnoreLayerCollision(8, 10, false);
@@ -81,7 +81,7 @@ public class PlayerCombat : MonoBehaviour
             SecondaryAttack();
             Eskill();
         }
-       
+
 
     }
 
@@ -141,8 +141,8 @@ public class PlayerCombat : MonoBehaviour
             animator.SetTrigger("eSkill");
             audioSource.PlayOneShot(eSkillSound);
 
-            // Especifica el tamaño de la hitbox. Aumenta el primer valor para hacerla más ancha.
-            // Ajusta el tamaño para hacer la hitbox más larga.
+            // Especifica el tamaï¿½o de la hitbox. Aumenta el primer valor para hacerla mï¿½s ancha.
+            // Ajusta el tamaï¿½o para hacer la hitbox mï¿½s larga.
             Vector2 hitBoxSize = new Vector2(attackRangeEskillX, attackRangeEskillY);
 
 
@@ -195,7 +195,7 @@ public class PlayerCombat : MonoBehaviour
             GameManager.instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        
+
     }
 
     public void TakeDmg(int dmg, Vector2 pos)
@@ -206,7 +206,7 @@ public class PlayerCombat : MonoBehaviour
         updateHp(dmg);
 
         audioSource.PlayOneShot(receiveDmgSound);
-     
+
 
         animator.SetBool("isRunning", false);
         animator.SetBool("isJumping", false);
@@ -217,7 +217,7 @@ public class PlayerCombat : MonoBehaviour
 
         StartCoroutine(loseControl());
         StartCoroutine(desactivateCollision());
-        
+
     }
 
     public void ApplyKnockback(Vector2 enemyHit)
@@ -247,7 +247,7 @@ public class PlayerCombat : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        
+
         if (attackPointBasicAttack != null)
         {
 

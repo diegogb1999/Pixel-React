@@ -30,11 +30,13 @@ public class PauseMenuScript : MonoBehaviour
     {
         LoadSettings();
 
-        SFXSlider.onValueChanged.AddListener(value => {
+        SFXSlider.onValueChanged.AddListener(value =>
+        {
             changeSFX(value);
             UpdateIcon(SFXSlider, SFXicon, SFXoff, SFXon);
         });
-        MusicSlider.onValueChanged.AddListener(value => {
+        MusicSlider.onValueChanged.AddListener(value =>
+        {
             changeMusic(value);
             UpdateIcon(MusicSlider, MusicIcon, MusicOff, MusicOn);
         });
@@ -73,6 +75,44 @@ public class PauseMenuScript : MonoBehaviour
     private void UpdateIcon(Slider slider, Image icon, Sprite offIcon, Sprite onIcon)
     {
         icon.sprite = slider.value == 0 ? offIcon : onIcon;
+    }
+
+    public void toggleMusic()
+    {
+        if (MusicIcon.sprite == MusicOff)
+        {
+            float value = PlayerPrefs.GetFloat("MusicVolumeTemp", 0.5f);
+            changeMusic(value);
+            MusicSlider.value = value;
+            MusicIcon.sprite = MusicOn;
+            PlayerPrefs.DeleteKey("MusicVolumeTemp");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("MusicVolumeTemp", MusicSlider.value);
+            changeMusic(0);
+            MusicSlider.value = 0;
+            MusicIcon.sprite = MusicOff;
+        }
+    }
+
+    public void toggleSfx()
+    {
+        if (SFXicon.sprite == SFXoff)
+        {
+            float value = PlayerPrefs.GetFloat("SFXVolumeTemp", 0.5f);
+            changeSFX(value);
+            SFXSlider.value = value;
+            SFXicon.sprite = SFXon;
+            PlayerPrefs.DeleteKey("SFXVolumeTemp");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("SFXVolumeTemp", SFXSlider.value);
+            changeSFX(0);
+            SFXSlider.value = 0;
+            SFXicon.sprite = SFXoff;
+        }
     }
 
     public void changeSFX(float volume)
