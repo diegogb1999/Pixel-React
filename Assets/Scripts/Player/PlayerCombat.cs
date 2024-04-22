@@ -7,12 +7,6 @@ using UnityEngine.UI;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public float hp;
-    private float maxHp = 10;
-    private Image fill;
-    private PauseMenuScript pauseMenuScript;
-    private GameObject soundManager;
-
     [Header("Movement")]
 
     [SerializeField] private Vector2 knockbackSpeed;
@@ -25,11 +19,16 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip finishSound;
 
+    private GameObject soundManager;
     private AudioSource audioSource;
     private AudioSource runningSource;
 
     [Header("Stats")]
 
+    [SerializeField] private float hp;
+
+    private float maxHp = 10;
+    private Image fill;
     private bool isInvulnerable = false;
     private bool isDead = false;
 
@@ -61,7 +60,6 @@ public class PlayerCombat : MonoBehaviour
     void Start()
     {
         fill = GameObject.Find("Canvas Pause Menu/GameUI/HealthBar/Fill Area/Fill HP").GetComponent<Image>();
-        pauseMenuScript = GameObject.Find("Canvas Pause Menu").GetComponent<PauseMenuScript>();
         playerController = GetComponent<PlayerController>();
         Physics2D.IgnoreLayerCollision(8, 10, false);
         hp = maxHp;
@@ -96,7 +94,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void UpdateHealthBar()
+    public void UpdateHealthBar()
     {
         float targetFillAmount = hp / maxHp;
         fill.fillAmount = targetFillAmount;
@@ -177,7 +175,7 @@ public class PlayerCombat : MonoBehaviour
 
             rigidBody.velocity = Vector2.zero;
 
-            rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+            //rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX;
 
             Physics2D.IgnoreLayerCollision(8, 10, true);
             isInvulnerable = true;
@@ -211,10 +209,10 @@ public class PlayerCombat : MonoBehaviour
         animator.SetBool("isRunning", false);
         animator.SetBool("isJumping", false);
         animator.SetTrigger("hitted");
-        ApplyKnockback(pos);
 
         if (isDead) return;
 
+        ApplyKnockback(pos);
         StartCoroutine(loseControl());
         StartCoroutine(desactivateCollision());
 

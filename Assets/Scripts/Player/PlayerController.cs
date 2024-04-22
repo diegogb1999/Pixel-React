@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+
     [Header("Movement")]
 
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private Vector2 knockbackSpeed;
-    public bool canMove { get; set; } = true; 
+    public bool canMove = true;
 
     private float extraHeight = 0.05f;
     private bool lookingRight = true;

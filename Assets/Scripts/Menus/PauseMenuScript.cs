@@ -10,7 +10,7 @@ public class PauseMenuScript : MonoBehaviour
     [Header("Visual UI")]
 
     [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private GameObject gearIcon;
+    [SerializeField] private GameObject gameUI;
 
     [Header("Audio")]
 
@@ -53,13 +53,13 @@ public class PauseMenuScript : MonoBehaviour
         {
             if (pauseMenu.activeSelf)
             {
-                gearIcon.SetActive(true);
+                gameUI.SetActive(true);
                 Resume();
                 Unmute();
             }
             else
             {
-                gearIcon.SetActive(false);
+                gameUI.SetActive(false);
                 Pause();
                 Mute();
             }
@@ -143,6 +143,7 @@ public class PauseMenuScript : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
+        FindObjectOfType<PlayerCombat>().UpdateHealthBar();
     }
 
     public void Restart()
