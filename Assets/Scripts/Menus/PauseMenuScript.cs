@@ -53,15 +53,11 @@ public class PauseMenuScript : MonoBehaviour
         {
             if (pauseMenu.activeSelf)
             {
-                gameUI.SetActive(true);
                 Resume();
-                Unmute();
             }
             else
             {
-                gameUI.SetActive(false);
                 Pause();
-                Mute();
             }
         }
     }
@@ -130,7 +126,10 @@ public class PauseMenuScript : MonoBehaviour
     public void Pause()
     {
         pauseMenu.SetActive(true);
+        gameUI.SetActive(false);
         Time.timeScale = 0;
+        FindObjectOfType<PlayerCombat>().UpdateHealthBar();
+        Mute();
     }
 
     public void Home()
@@ -142,8 +141,10 @@ public class PauseMenuScript : MonoBehaviour
     public void Resume()
     {
         pauseMenu.SetActive(false);
+        gameUI.SetActive(true);
         Time.timeScale = 1;
         FindObjectOfType<PlayerCombat>().UpdateHealthBar();
+        Unmute();
     }
 
     public void Restart()
