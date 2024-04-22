@@ -6,32 +6,43 @@ using UnityEngine.SceneManagement;
 
 public class LayoutPlayer : MonoBehaviour
 {
-    private float maxHp = 10;
-    public float currentHp;
-    public Image fill;
-    public PauseMenuScript pauseMenuScript;
+    public Button button; // El botón padre
+    public Image childImage; // La imagen hijo
+
+    private void Reset()
+    {
+        // Intentar auto-llenar los campos si no están asignados
+        if (button == null)
+            button = GetComponentInParent<Button>();
+        if (childImage == null)
+            childImage = GetComponent<Image>();
+    }
 
     void Start()
     {
-        currentHp = maxHp;
-        UpdateHealthBar();
-        
-    }
-
-    public void updateHp(int amount)
-    {
-        currentHp -= amount;
-        currentHp = Mathf.Clamp(currentHp, 0, maxHp);
-        UpdateHealthBar();
-        if (currentHp <= 0)
+        if (button != null)
         {
-            pauseMenuScript.Restart();
+            // Añadir listener para cuando el estado del botón cambie
+            button.onClick.AddListener(ApplyColorChange);
         }
     }
 
-    private void UpdateHealthBar()
+    void ApplyColorChange()
     {
-        float targetFillAmount = currentHp / maxHp;
-        fill.fillAmount = targetFillAmount;
+        if (childImage != null && button != null)
+        {
+            // Copiar el color actual del botón al hijo imagen
+            ColorBlock colors = button.colors;
+            childImage.color = button.image.color; // Propagar el color de la imagen del botón
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (button != null)
+        {
+            // Quitar listener cuando el script se destruya
+            button.onClick.RemoveListener(ApplyColorChange);
+        }
     }
 }
