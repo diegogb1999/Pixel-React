@@ -7,18 +7,22 @@ using System.Linq;
 public class OptionsScript : MonoBehaviour
 {
     [Header("Resolution & Graphics")]
+
     [SerializeField] public Dropdown graphicsDropdown;
     [SerializeField] public Dropdown resolutionDropdown;
+
     private readonly int[] validRefreshRates = { 60, 120, 144, 240 };
     private List<Resolution> validResolutions;
 
     [Header("Sound")]
+
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
 
     [Header("PlayerPrefs & AudioMixer")]
+
     private readonly string graphicsLevelKey = "GraphicsLevel";
     private readonly string masterPrefKey = "MasterVolume";
     private readonly string musicPrefKey = "MusicVolume";
@@ -28,8 +32,10 @@ public class OptionsScript : MonoBehaviour
     private readonly string sfxMixerKey = "SFX";
 
     [Header("FPS display")]
-    public Text fpsText;
-    public float updateRate = 0.5f;
+
+    [SerializeField] private Text fpsText;
+    [SerializeField] private float updateRate = 0.5f;
+
     private float lastUpdate = 0f;
     private float frames = 0f;
     private float fps = 0f;

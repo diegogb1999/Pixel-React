@@ -8,8 +8,9 @@ using Button = UnityEngine.UI.Button;
 
 public class LevelSelectScript : MonoBehaviour
 {
-    public Button[] buttons;
-    public GameObject levelButtons;
+    [SerializeField] private GameObject levelButtons;
+
+    private Button[] buttons;
 
     private void Awake()
     {

@@ -14,12 +14,12 @@ public class PauseMenuScript : MonoBehaviour
     [SerializeField] private GameObject gameUI;
 
     [SerializeField] private Button basicAttackButton;
-    public Image cdMaskBasicAttack;
-    public TextMeshProUGUI timerBasicAttack;
+    [SerializeField] private Image cdMaskBasicAttack;
+    [SerializeField] private TextMeshProUGUI timerBasicAttack;
 
     [SerializeField] private Button eSkillButton;
-    public Image cdMaskEskill; 
-    public TextMeshProUGUI timerEskill; 
+    [SerializeField] private Image cdMaskEskill;
+    [SerializeField] private TextMeshProUGUI timerEskill; 
 
     [Header("Audio")]
 
@@ -53,8 +53,6 @@ public class PauseMenuScript : MonoBehaviour
             changeMusic(value);
             UpdateIcon(MusicSlider, MusicIcon, MusicOff, MusicOn);
         });
-
-        //LoadSettings();
 
         UpdateIcon(SFXSlider, SFXicon, SFXoff, SFXon);
         UpdateIcon(MusicSlider, MusicIcon, MusicOff, MusicOn);
