@@ -28,7 +28,6 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float hp;
 
     private float maxHp = 10;
-    private Image fill;
     private bool isInvulnerable = false;
     private bool isDead = false;
 
@@ -36,18 +35,18 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] private Transform attackPointBasicAttack;
     [SerializeField] private float attackRangeBasicAttack; //0.5f
-    [SerializeField] private float attackRateBasicAttack; //1.2f
+    public float attackRateBasicAttack; //1.2f
 
-    private float nextAttackTimeBasicAttack = 0f;
+    public float nextAttackTimeBasicAttack = 0f;
 
     [Header("E Skill")]
 
     [SerializeField] private Transform attackPointEskill;
     [SerializeField] private float attackRangeEskillX; //2.06f
     [SerializeField] private float attackRangeEskillY; //0.67f
-    [SerializeField] private float attackRateEskill; //0.2f
+    public float attackRateEskill; //0.2f
 
-    private float nextAttackTimeEskill = 0f;
+    public float nextAttackTimeEskill = 0f;
 
     [Header("Physics and animations")]
 
@@ -56,6 +55,10 @@ public class PlayerCombat : MonoBehaviour
 
     private Rigidbody2D rigidBody;
     private PlayerController playerController;
+
+    [Header("UI references")]
+
+    private Image fill;
 
     void Start()
     {

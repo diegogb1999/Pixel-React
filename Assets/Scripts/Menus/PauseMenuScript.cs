@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,14 @@ public class PauseMenuScript : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject gameUI;
+
+    [SerializeField] private Button basicAttackButton;
+    public Image cdMaskBasicAttack;
+    public TextMeshProUGUI timerBasicAttack;
+
+    [SerializeField] private Button eSkillButton;
+    public Image cdMaskEskill; 
+    public TextMeshProUGUI timerEskill; 
 
     [Header("Audio")]
 
@@ -25,6 +34,10 @@ public class PauseMenuScript : MonoBehaviour
     [SerializeField] private Sprite MusicOn;
 
     [SerializeField] private AudioMixer audioMixer;
+
+    [Header("Player references")]
+
+    private PlayerCombat playerCombatScript;
 
     void Start()
     {
@@ -45,6 +58,8 @@ public class PauseMenuScript : MonoBehaviour
 
         UpdateIcon(SFXSlider, SFXicon, SFXoff, SFXon);
         UpdateIcon(MusicSlider, MusicIcon, MusicOff, MusicOn);
+
+        playerCombatScript = FindAnyObjectByType<PlayerCombat>();
     }
 
     void Update()
@@ -59,6 +74,29 @@ public class PauseMenuScript : MonoBehaviour
             {
                 Pause();
             }
+        }
+        cdDisplay(cdMaskBasicAttack, timerBasicAttack, playerCombatScript.nextAttackTimeBasicAttack, playerCombatScript.attackRateBasicAttack);
+        cdDisplay(cdMaskEskill, timerEskill, playerCombatScript.nextAttackTimeEskill, playerCombatScript.attackRateEskill);
+    }
+
+    private void cdDisplay(Image cdMask, TextMeshProUGUI timer, float nextAttackTime, float attackRate)
+    {
+        float timeLeft = nextAttackTime - Time.time;
+        float cd = 1f / attackRate;
+
+        if (timeLeft > 0)
+        {
+            timer.enabled = true;
+            cdMask.enabled = true;
+
+            timer.text = timeLeft.ToString("F1") + "s";
+
+            cdMask.fillAmount = timeLeft / cd;
+        }
+        else
+        {
+            timer.enabled = false;
+            cdMask.enabled = false;
         }
     }
 
