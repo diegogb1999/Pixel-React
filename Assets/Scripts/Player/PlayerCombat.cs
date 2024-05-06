@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerCombat : MonoBehaviour
 {
+    public ParticleSystem hitEffectPrefab;
+
     [Header("Movement")]
 
     [SerializeField] private Vector2 knockbackSpeed;
@@ -25,14 +29,15 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Stats")]
 
-    [SerializeField] private float hp;
+    [SerializeField] private float maxHp;
 
-    private float maxHp = 10;
+    private float hp;
     private bool isInvulnerable = false;
     private bool isDead = false;
 
     [Header("Basic Attack")]
 
+    [SerializeField] private float powerBasicAttack;
     [SerializeField] private Transform attackPointBasicAttack;
     [SerializeField] private float attackRangeBasicAttack; //0.5f
     public float attackRateBasicAttack; //1.2f
@@ -41,6 +46,7 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("E Skill")]
 
+    [SerializeField] private float powerEskill;
     [SerializeField] private Transform attackPointEskill;
     [SerializeField] private float attackRangeEskillX; //2.06f
     [SerializeField] private float attackRangeEskillY; //0.67f
@@ -58,11 +64,12 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("UI references")]
 
-    private Image fill;
+    private UnityEngine.UI.Image fill;
+
 
     void Start()
     {
-        fill = GameObject.Find("Canvas Pause Menu/GameUI/HealthBar/Fill Area/Fill HP").GetComponent<Image>();
+        fill = GameObject.Find("Canvas Pause Menu/GameUI/HealthBar/Fill Area/Fill HP").GetComponent<UnityEngine.UI.Image>();
         playerController = GetComponent<PlayerController>();
         Physics2D.IgnoreLayerCollision(8, 10, false);
         hp = maxHp;
@@ -72,6 +79,8 @@ public class PlayerCombat : MonoBehaviour
         AudioSource[] sources = GetComponents<AudioSource>();
         audioSource = sources[0];
         runningSource = sources[1];
+        hitEffectPrefab = GetComponentInChildren<ParticleSystem>();
+
     }
 
     void Update()
@@ -109,16 +118,41 @@ public class PlayerCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextAttackTimeBasicAttack)
         {
-            animator.SetTrigger("basicAttack");
-            audioSource.PlayOneShot(basicAttackSound);
+            
+            StartCoroutine(basicAttackLong());
+            
+        }
+
+    }
+
+    IEnumerator basicAttackLong()
+    {
+        nextAttackTimeBasicAttack = Time.time + 1f / attackRateBasicAttack;
+
+        animator.SetTrigger("basicAttack");
+        audioSource.PlayOneShot(basicAttackSound);
+
+
+        HashSet<Collider2D> alreadyHit = new HashSet<Collider2D>();
+
+        float endTime = Time.time + 0.25f;
+
+        while (Time.time < endTime)
+        {
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPointBasicAttack.position, attackRangeBasicAttack, enemyLayers);
 
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("hit " + enemy.name);
-            }
+                if (!alreadyHit.Contains(enemy))
+                {
+                    EnemyInterface enemyInterfaceBasicAttack = enemy.GetComponent<EnemyInterface>();
+                    enemyInterfaceBasicAttack.TakeDmg(powerBasicAttack);
+                    alreadyHit.Add(enemy);
+                    enemy.GetComponent<ParticleSystem>().Play();
 
-            nextAttackTimeBasicAttack = Time.time + 1f / attackRateBasicAttack;
+                }
+            }
+            yield return new WaitForSeconds(0.01f);
         }
     }
 
@@ -130,20 +164,19 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    void Eskill()
+    IEnumerator eSkillLong()
     {
-        /*if (Input.GetKeyDown(KeyCode.E))
-        {
-            animator.SetTrigger("eSkill");
-        }*/
+        nextAttackTimeEskill = Time.time + 1f / attackRateEskill;
 
-        if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextAttackTimeEskill)
-        {
-            animator.SetTrigger("eSkill");
-            audioSource.PlayOneShot(eSkillSound);
+        animator.SetTrigger("eSkill");
+        audioSource.PlayOneShot(eSkillSound);
 
-            // Especifica el tama�o de la hitbox. Aumenta el primer valor para hacerla m�s ancha.
-            // Ajusta el tama�o para hacer la hitbox m�s larga.
+        HashSet<Collider2D> alreadyHit = new HashSet<Collider2D>();
+
+        float endTime = Time.time + 0.5f;
+
+        while (Time.time < endTime)
+        {
             Vector2 hitBoxSize = new Vector2(attackRangeEskillX, attackRangeEskillY);
 
 
@@ -153,10 +186,32 @@ public class PlayerCombat : MonoBehaviour
 
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("hit E " + enemy.name);
+                if (!alreadyHit.Contains(enemy))
+                {
+                    EnemyInterface enemyInterfaceEskill = enemy.GetComponent<EnemyInterface>();
+                    enemyInterfaceEskill.TakeDmg(powerEskill);
+                    alreadyHit.Add(enemy);
+                    enemy.GetComponent<ParticleSystem>().Play();
+                }
             }
 
-            nextAttackTimeEskill = Time.time + 1f / attackRateEskill;
+
+            yield return new WaitForSeconds(0.01f);
+        }
+        
+    }
+
+    void Eskill()
+    {
+        /*if (Input.GetKeyDown(KeyCode.E))
+        {
+            animator.SetTrigger("eSkill");
+        }*/
+
+        if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextAttackTimeEskill)
+        {
+            StartCoroutine(eSkillLong());
+            
         }
     }
 
