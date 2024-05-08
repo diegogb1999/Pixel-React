@@ -5,9 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static CartoonFX.CFXR_Effect;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEngine.ParticleSystem;
+
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -93,9 +91,19 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!isDead && playerController.canMove)
         {
-            BasicAttack();
+            
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                BasicAttack();
+            }
+
             SecondaryAttack();
-            Eskill();
+
+            if (Input.GetKeyDown(KeyCode.E))
+                {
+                Eskill();
+            }
+            
         }
     }
 
@@ -118,9 +126,9 @@ public class PlayerCombat : MonoBehaviour
 
     #region Character attacks / skills
 
-    void BasicAttack()
+    public void BasicAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextAttackTimeBasicAttack)
+        if (Time.time >= nextAttackTimeBasicAttack)
         {
             StartCoroutine(basicAttackLong());          
         }
@@ -210,14 +218,14 @@ public class PlayerCombat : MonoBehaviour
         
     }
 
-    void Eskill()
+    public void Eskill()
     {
         /*if (Input.GetKeyDown(KeyCode.E))
         {
             animator.SetTrigger("eSkill");
         }*/
 
-        if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextAttackTimeEskill)
+        if (Time.time >= nextAttackTimeEskill)
         {
             StartCoroutine(eSkillLong());
             

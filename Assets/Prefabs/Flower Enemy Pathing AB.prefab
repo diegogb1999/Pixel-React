@@ -208,11 +208,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8782924908257467565}
   m_SourcePrefab: {fileID: 100100000, guid: d3aa3b7cf7c6e31468acf3c293da1090, type: 3}
---- !u!95 &5788986244414703824 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8040065642195876837, guid: d3aa3b7cf7c6e31468acf3c293da1090, type: 3}
-  m_PrefabInstance: {fileID: 4594394321685214005}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6543244907382372152 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7281432021354054669, guid: d3aa3b7cf7c6e31468acf3c293da1090, type: 3}
@@ -230,13 +225,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c101fbf447541094f8b2bef96c32b5ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathParticles: {fileID: 0}
+  hp: 30
   FlowerAttackPoint: {fileID: 3446715675095917002}
   attackRangeFlowerX: 1.6
   attackRangeFlowerY: 0.9
   nextAttackTimeFlower: 0.25
   gasSound: {fileID: 8300000, guid: ac0dcc5086808f24da854e58d8c28a34, type: 3}
-  hittedSound: {fileID: 0}
-  animator: {fileID: 5788986244414703824}
+  hittedSound: {fileID: 8300000, guid: 15540209afe6d464a9c08143e5083260, type: 3}
+  deadSound: {fileID: 8300000, guid: 9f6e265e6cdec674784330ab34c258d3, type: 3}
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
