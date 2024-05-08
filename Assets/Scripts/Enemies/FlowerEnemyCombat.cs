@@ -125,7 +125,7 @@ public class FlowerEnemyCombat : MonoBehaviour, EnemyInterface
 
             yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length + 2);
 
-        /*SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         float fadeDuration = 2f; // Duración en segundos del desvanecimiento
         float fadeRate = 1f / fadeDuration;
         float alpha = 1f;
@@ -135,7 +135,7 @@ public class FlowerEnemyCombat : MonoBehaviour, EnemyInterface
             alpha -= Time.deltaTime * fadeRate;
             spriteRenderer.color = new Color(1f, 1f, 1f, alpha);
             yield return null;
-        }*/
+        }
 
         Destroy(gameObject);
     }

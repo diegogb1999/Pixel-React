@@ -5,11 +5,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using static CartoonFX.CFXR_Effect;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public ParticleSystem hitEffectPrefab;
+    public GameObject particleEskill;
+    public GameObject particleBasicAttack;
+    private ParticleSystem rootParticleSystem;
+
+
 
     [Header("Movement")]
 
@@ -79,7 +85,7 @@ public class PlayerCombat : MonoBehaviour
         AudioSource[] sources = GetComponents<AudioSource>();
         audioSource = sources[0];
         runningSource = sources[1];
-        hitEffectPrefab = GetComponentInChildren<ParticleSystem>();
+        rootParticleSystem = particleBasicAttack.GetComponent<ParticleSystem>();
 
     }
 
@@ -91,8 +97,6 @@ public class PlayerCombat : MonoBehaviour
             SecondaryAttack();
             Eskill();
         }
-
-
     }
 
     public void updateHp(int amount)
@@ -118,9 +122,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextAttackTimeBasicAttack)
         {
-            
-            StartCoroutine(basicAttackLong());
-            
+            StartCoroutine(basicAttackLong());          
         }
 
     }
@@ -148,8 +150,12 @@ public class PlayerCombat : MonoBehaviour
                     EnemyInterface enemyInterfaceBasicAttack = enemy.GetComponent<EnemyInterface>();
                     enemyInterfaceBasicAttack.TakeDmg(powerBasicAttack);
                     alreadyHit.Add(enemy);
-                    enemy.GetComponent<ParticleSystem>().Play();
 
+                    GameObject particles = Instantiate(particleBasicAttack, enemy.transform.position, Quaternion.identity, enemy.transform);
+                    particles.transform.localPosition = new Vector3(0, -0.75f, 0);
+                    particles.transform.localRotation = Quaternion.identity; // Establece la rotación local si es necesario
+
+                    StartCoroutine(CheckAndDestroyParticle(particles));
                 }
             }
             yield return new WaitForSeconds(0.01f);
@@ -191,7 +197,10 @@ public class PlayerCombat : MonoBehaviour
                     EnemyInterface enemyInterfaceEskill = enemy.GetComponent<EnemyInterface>();
                     enemyInterfaceEskill.TakeDmg(powerEskill);
                     alreadyHit.Add(enemy);
-                    enemy.GetComponent<ParticleSystem>().Play();
+                    //enemy.GetComponent<ParticleSystem>().Play();
+                    GameObject particles = Instantiate(particleEskill, enemy.transform.position, Quaternion.identity, enemy.transform);
+                    particles.transform.localPosition = new Vector3(0, -0.75f, 0);
+                    particles.transform.localRotation = Quaternion.identity; // Establece la rotación local si es necesario
                 }
             }
 
@@ -324,5 +333,13 @@ public class PlayerCombat : MonoBehaviour
 
     #endregion
 
+    IEnumerator CheckAndDestroyParticle(GameObject particleInstance)
+    {
+        yield return new WaitUntil(() => particleInstance == null || !particleInstance.GetComponent<ParticleSystem>().IsAlive(true));
+        if (particleInstance != null)
+        {
+            Destroy(particleInstance);
+        }
 
+    }
 }
