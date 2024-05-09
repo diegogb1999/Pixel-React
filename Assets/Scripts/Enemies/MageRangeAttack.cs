@@ -5,10 +5,15 @@ using UnityEngine;
 public class MageRangeAttack : MonoBehaviour
 {
     private BoxCollider2D collider;
+    [SerializeField] private AudioClip rangeAttackSound;
+
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         collider = GetComponent<BoxCollider2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -24,6 +29,10 @@ public class MageRangeAttack : MonoBehaviour
     public void DeactivateDmg()
     {
         collider.enabled = false;
+    }
+    public void soundEffect()
+    {
+        audioSource.PlayOneShot(rangeAttackSound);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
