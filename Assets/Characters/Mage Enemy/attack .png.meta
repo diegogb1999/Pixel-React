@@ -126,12 +126,12 @@ TextureImporter:
       name: attack _0
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
         y: 408
-        width: 16
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -147,12 +147,12 @@ TextureImporter:
       name: attack _1
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
         y: 374
-        width: 16
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -168,12 +168,12 @@ TextureImporter:
       name: attack _2
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
         y: 340
-        width: 16
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -189,12 +189,12 @@ TextureImporter:
       name: attack _3
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
         y: 306
-        width: 16
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -210,12 +210,12 @@ TextureImporter:
       name: attack _4
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
         y: 272
-        width: 16
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -231,12 +231,12 @@ TextureImporter:
       name: attack _5
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 238
-        width: 17
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -254,10 +254,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 204
-        width: 27
+        width: 28
         height: 28
       alignment: 9
-      pivot: {x: 0.59, y: 0.5}
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -273,12 +273,12 @@ TextureImporter:
       name: attack _7
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 170
-        width: 21
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -294,12 +294,12 @@ TextureImporter:
       name: attack _8
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 136
-        width: 21
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -315,12 +315,12 @@ TextureImporter:
       name: attack _9
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 102
-        width: 21
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -336,12 +336,12 @@ TextureImporter:
       name: attack _10
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 68
-        width: 21
-        height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -357,12 +357,12 @@ TextureImporter:
       name: attack _11
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 34
-        width: 21
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -378,12 +378,12 @@ TextureImporter:
       name: attack _12
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 0
-        width: 21
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 28
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -411,7 +411,7 @@ TextureImporter:
       attack _10: -857272620
       attack _11: 588924791
       attack _12: -1040986420
-      attack _13: 1043412494
+      attack _13: -292659817
       attack _2: -858719269
       attack _3: -2099616923
       attack _4: 1791449285
