@@ -6,10 +6,11 @@ using System.IO;
 
 public class FileDataHandler
 {
+    [Header("Paths")]
     private string dataDirPath = "";
-
     private string dataFileName = "";
 
+    [Header("Encrypt")]
     private bool useEncryption = false;
     private readonly string encryptionCodeWord = "SiLeesEstoNosDebesPonerUn10";
 

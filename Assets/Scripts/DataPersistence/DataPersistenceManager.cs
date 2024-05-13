@@ -15,7 +15,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     
     private List<IDataPersistence> dataPersistenceList;
-    public GameData gameData;
+    private GameData gameData;
     private FileDataHandler dataHandler;
 
     private string selectedProfileId = "test";
@@ -50,6 +50,12 @@ public class DataPersistenceManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         
+    }
+
+    public void UnlockLevel()
+    {
+          gameData.UnlockLevel();
+
     }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)

@@ -42,14 +42,6 @@ public class SaveSlotsMenu : MonoBehaviour
 
     public void OnSaveSlotClicked(SaveSlotScript saveSlot)
     {
-        if (!isNewGame.Equals("save"))
-        {
-            DisableMenuButtons();
-            DataPersistenceManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
-        }
-
-        
-
         if (isNewGame.Equals("save"))
         {
             DataPersistenceManager.instance.OverrideProfileId(saveSlot.GetProfileId());
@@ -58,16 +50,11 @@ public class SaveSlotsMenu : MonoBehaviour
 
         if (isNewGame.Equals("load"))
         {
-            DataPersistenceManager.instance.LoadGame();
-        }
-
-        
-
-        if (!isNewGame.Equals("save"))
-        {
+            DisableMenuButtons();
+            DataPersistenceManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
             levelsMenu.SetActive(true);
             DeActivateMenu();
-        }
+        }   
         
     }
 

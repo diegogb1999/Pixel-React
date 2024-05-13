@@ -28,10 +28,6 @@ public class LevelSelectScript : MonoBehaviour, IDataPersistence
             buttons[i].interactable = true;
         }
     }
-    private void Start()
-    {
-        UpdateButtons();  // Asegúrate de llamar a UpdateButtons al inicio para configurar correctamente los botones.
-    }
 
     public void OnClickLevel(int level)
     {

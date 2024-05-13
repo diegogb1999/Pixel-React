@@ -11,4 +11,13 @@ public class GameData
     {
         this.levelsUnlocked = 1;
     }
+    public int LevelsUnlocked
+    {
+        get { return levelsUnlocked; }
+    }
+
+    public void UnlockLevel()
+    {
+        levelsUnlocked++;
+    }
 }
