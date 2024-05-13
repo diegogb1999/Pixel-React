@@ -114,7 +114,7 @@ public class FileDataHandler
         return profileDictionary;
     }
 
-    private string EncryptDecrypt(String data)
+    public string EncryptDecrypt(String data)
     {
         string modifiedData = "";
         for (int i = 0; i < data.Length; i++)

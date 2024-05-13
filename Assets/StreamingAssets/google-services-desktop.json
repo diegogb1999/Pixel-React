@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "205770055815",
+    "firebase_url": "https://ivandevwebsite-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "ivandevwebsite",
+    "storage_bucket": "ivandevwebsite.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205770055815:android:3920c9f19af8e2b91a1822",
+        "android_client_info": {
+          "package_name": "com.pixel_react"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205770055815-2p5td0gp6jsiqedjek5mfvldt7q3ln4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBa429tGABv1FwJDd0DtI2kwY3bUcNA6Wo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205770055815-2p5td0gp6jsiqedjek5mfvldt7q3ln4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Firebase.Database;
+using System.IO;
 
 public enum MenuMode
 {
@@ -23,15 +25,37 @@ public class SaveSlotsMenu : MonoBehaviour
 
     private SaveSlotScript[] saveSlots;
 
+    private FileDataHandler fileDataHandler;
+
     [SerializeField] private Button backButton;
 
     private bool isLoadingGame = false;
 
     private string isNewGame = "";
 
+    private string userFolder;
+
     private void Awake()
     {
         saveSlots = this.GetComponentsInChildren<SaveSlotScript>();
+        fileDataHandler = new FileDataHandler(Application.persistentDataPath, "data.json", true);
+        InitializeUserFolder();
+    }
+
+    private void InitializeUserFolder()
+    {
+        // Verifica si ya existe un UserFolder ID almacenado
+        if (PlayerPrefs.HasKey("UserFolderId"))
+        {
+            userFolder = PlayerPrefs.GetString("UserFolderId");
+        }
+        else
+        {
+            // Si no, genera uno nuevo, guárdalo y úsalo
+            userFolder = System.Guid.NewGuid().ToString();
+            PlayerPrefs.SetString("UserFolderId", userFolder);
+            PlayerPrefs.Save();
+        }
     }
 
     public void OnBackClicked()
@@ -40,7 +64,41 @@ public class SaveSlotsMenu : MonoBehaviour
         this.DeActivateMenu();
     }
 
-    public void OnSaveSlotClicked(SaveSlotScript saveSlot)
+    private void UploadSaveDataToFirebase(string profileId)
+    {
+        string localFile = Path.Combine(Application.persistentDataPath, profileId, "data.json");
+        if (File.Exists(localFile))
+        {
+
+            // Leer primero el contenido del archivo
+            string encryptedJsonData = File.ReadAllText(localFile);
+            // Desencriptar los datos
+            string jsonData = fileDataHandler.EncryptDecrypt(encryptedJsonData);
+
+            var dbReference = FirebaseDatabase.DefaultInstance.RootReference;
+
+            // Aquí 'saves' es el nodo en la base de datos donde se guardarán los datos
+            // Puedes cambiar 'saves' por el nombre del nodo que prefieras
+            var profileRef = dbReference.Child("GameData").Child(userFolder).Child(profileId);
+
+            profileRef.SetRawJsonValueAsync(jsonData).ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Error uploading data: " + task.Exception);
+                }
+                else if (task.IsCompleted)
+                {
+                    Debug.Log("Data uploaded successfully.");
+                }
+            });
+        }
+        else
+        {
+            Debug.LogError("File not found: " + localFile);
+        }
+    }
+        public void OnSaveSlotClicked(SaveSlotScript saveSlot)
     {
         if (isNewGame.Equals("save"))
         {
@@ -52,6 +110,10 @@ public class SaveSlotsMenu : MonoBehaviour
         {
             DisableMenuButtons();
             DataPersistenceManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
+
+            // Sube el archivo a Firebase
+            UploadSaveDataToFirebase(saveSlot.GetProfileId());
+
             levelsMenu.SetActive(true);
             DeActivateMenu();
         }   
