@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MageRangeAttack : MonoBehaviour
 {
-    private BoxCollider2D collider;
+    private BoxCollider2D col;
     [SerializeField] private AudioClip rangeAttackSound;
 
     AudioSource audioSource;
@@ -12,7 +12,7 @@ public class MageRangeAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        collider = GetComponent<BoxCollider2D>();
+        col = GetComponent<BoxCollider2D>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -24,11 +24,11 @@ public class MageRangeAttack : MonoBehaviour
 
     public void ActivateDmg()
     {
-        collider.enabled = true;
+        col.enabled = true;
     }
     public void DeactivateDmg()
     {
-        collider.enabled = false;
+        col.enabled = false;
     }
     public void soundEffect()
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class StartMenuController : MonoBehaviour
@@ -11,4 +12,5 @@ public class StartMenuController : MonoBehaviour
         Debug.Log("Saliendo del sistema...");
         Application.Quit();
     }
+
 }

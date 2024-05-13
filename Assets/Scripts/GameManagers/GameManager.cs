@@ -5,9 +5,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements.Experimental;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IDataPersistence
 {
     public static GameManager instance;
+
+    public int levelsUnlocked = 1;
 
     [SerializeField] private Animator transitionAnim;
 
@@ -36,35 +38,25 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-        int loadSceneIndex = sceneIndex ?? SceneManager.GetActiveScene().buildIndex + 1;
+        /*if (SceneManager.GetActiveScene().buildIndex == levelsUnlocked && SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            levelsUnlocked++;
+        }*/
+
+        int loadSceneIndex = sceneIndex ?? levelsUnlocked;
         SceneManager.LoadSceneAsync(loadSceneIndex);
 
         transitionAnim.SetTrigger("Start");
     }
 
-    /*public void NextLevel()
+    public void LoadData(GameData data)
     {
-        StartCoroutine(LoadNextLevel());
+        this.levelsUnlocked = data.levelsUnlocked;
     }
 
-    public void LoadScene(int scene)
+    public void SaveData(GameData data)
     {
-        StartCoroutine(LoadCustomLevel(scene));
+         data.levelsUnlocked = this.levelsUnlocked;
     }
 
-    IEnumerator LoadNextLevel()
-    {
-        transitionAnim.SetTrigger("End");
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
-        transitionAnim.SetTrigger("Start");
-    }
-
-    IEnumerator LoadCustomLevel(int scene)
-    {
-        transitionAnim.SetTrigger("End");
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadSceneAsync(scene);
-        transitionAnim.SetTrigger("Start");
-    }*/
 }

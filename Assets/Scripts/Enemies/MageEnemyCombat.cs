@@ -11,7 +11,7 @@ public class MageEnemyCombat : MonoBehaviour, EnemyInterface
     [SerializeField] private Animator animatorRangeAttack;
 
 
-    private BoxCollider2D collider;
+    private BoxCollider2D col;
     private Rigidbody2D rb;
     public float detectionRange = 5f;
     public float cdTime;
@@ -36,7 +36,7 @@ public class MageEnemyCombat : MonoBehaviour, EnemyInterface
     void Start()
     {
         animator = GetComponent<Animator>();
-        collider = GetComponent<BoxCollider2D>();
+        col = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         
         AudioSource[] sources = GetComponents<AudioSource>();

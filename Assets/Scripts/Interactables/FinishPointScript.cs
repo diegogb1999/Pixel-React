@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class FinishPointScript : MonoBehaviour
+public class FinishPointScript : MonoBehaviour, IDataPersistence
 {
     [Header("Physics and animations")]
 
@@ -26,11 +26,12 @@ public class FinishPointScript : MonoBehaviour
 
     void UnlockNewLevel()
     {
-        if (SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("ReachedIndex"))
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex == GameManager.instance.levelsUnlocked)
         {
-            PlayerPrefs.SetInt("ReachedIndex", SceneManager.GetActiveScene().buildIndex + 1);
-            PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
-            PlayerPrefs.Save(); 
+            GameManager.instance.levelsUnlocked++;
+            DataPersistenceManager.instance.gameData.levelsUnlocked = GameManager.instance.levelsUnlocked;
+            //DataPersistenceManager.instance.SaveGame(); // Guardar el juego cada vez que se desbloquee un nuevo nivel
         }
     }
 
@@ -53,5 +54,15 @@ public class FinishPointScript : MonoBehaviour
             StartCoroutine(WaitWhileCondition());           
         }
  
+    }
+
+    public void LoadData(GameData data)
+    {
+        GameManager.instance.levelsUnlocked = data.levelsUnlocked;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.levelsUnlocked = GameManager.instance.levelsUnlocked;
     }
 }

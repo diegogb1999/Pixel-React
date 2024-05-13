@@ -250,7 +250,7 @@ MonoBehaviour:
   receiveDmgSound: {fileID: 8300000, guid: b59a63f6148b0b9419aa6a918301039b, type: 3}
   deathSound: {fileID: 8300000, guid: 704c3c74f843fae4e929af25a3c83d6d, type: 3}
   finishSound: {fileID: 8300000, guid: 4c480965516e415498e96ec5045aee3b, type: 3}
-  maxHp: 40
+  maxHp: 111
   powerBasicAttack: 2
   attackPointBasicAttack: {fileID: 87577097118650985}
   attackRangeBasicAttack: 0.75

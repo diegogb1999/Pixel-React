@@ -89,6 +89,11 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (playerController == null)
+        {
+            Debug.Log("PlayerController no encontrado en el GameObject");
+            return;
+        }
         if (!isDead && playerController.canMove)
         {
             
