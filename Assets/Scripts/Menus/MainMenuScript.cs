@@ -15,11 +15,12 @@ public class MainMenuScript : MonoBehaviour
 
     [SerializeField] private Button loadGameButton;
 
+    [SerializeField] private GameObject levelsMenu;
+
 
     public void OnClickStartGame()
     {
-        saveSlotsMenu.ActivateMenu(false, "new");
-        this.DeActivateMenu();
+        DataPersistenceManager.instance.NewGame();
     }
 
     public void OnLoadClicked()

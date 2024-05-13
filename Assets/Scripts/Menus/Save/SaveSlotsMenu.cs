@@ -54,13 +54,7 @@ public class SaveSlotsMenu : MonoBehaviour
         {
             DataPersistenceManager.instance.OverrideProfileId(saveSlot.GetProfileId());
             UpdateSaveSlots();
-        }
-
-        if (isNewGame.Equals("new"))
-        {
-            DataPersistenceManager.instance.NewGame();
-            //DataPersistenceManager.instance.SaveGame();
-        }
+        }   
 
         if (isNewGame.Equals("load"))
         {
