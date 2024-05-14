@@ -57,6 +57,15 @@ public class DataPersistenceManager : MonoBehaviour
           gameData.UnlockLevel();
 
     }
+    public void sumDeath()
+    {
+        gameData.sumDeath();
+    }
+
+        public void SaveName(string name)
+        {
+            gameData.saveName(name);
+    }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -110,6 +119,8 @@ public class DataPersistenceManager : MonoBehaviour
             NewGame();
         }
         Debug.Log($"Game loaded: {selectedProfileId} with levels unlocked = {this.gameData.levelsUnlocked}");
+        Debug.Log($"Game loaded: {selectedProfileId} with deathCount unlocked = {this.gameData.deathCount}");
+        Debug.Log($"Game loaded: {selectedProfileId} with gameName unlocked = {this.gameData.gameName}");
 
         foreach (IDataPersistence dataPersistenceObject in this.dataPersistenceList)
         {

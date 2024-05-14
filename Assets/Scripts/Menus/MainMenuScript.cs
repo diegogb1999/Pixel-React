@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,12 +16,13 @@ public class MainMenuScript : MonoBehaviour
 
     [SerializeField] private Button loadGameButton;
 
-    [SerializeField] private GameObject levelsMenu;
+    [SerializeField] private InputFieldScript inputFieldScript;
 
 
     public void OnClickStartGame()
     {
-        DataPersistenceManager.instance.NewGame();
+        this.gameObject.SetActive(false);
+        inputFieldScript.gameObject.SetActive(true);
     }
 
     public void OnLoadClicked()

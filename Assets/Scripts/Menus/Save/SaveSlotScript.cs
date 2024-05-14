@@ -16,6 +16,8 @@ public class SaveSlotScript : MonoBehaviour
     [SerializeField] private GameObject hasDataContent;
 
     [SerializeField] private TextMeshProUGUI levelsUnlocked;
+    [SerializeField] private TextMeshProUGUI gameName;
+    [SerializeField] private TextMeshProUGUI deathCount;
 
     private Button saveSlotButton;
 
@@ -36,7 +38,9 @@ public class SaveSlotScript : MonoBehaviour
             noDataContent.SetActive(false);
             hasDataContent.SetActive(true);
 
-            levelsUnlocked.text = "Levels unlocked: " + data.levelsUnlocked.ToString();
+            levelsUnlocked.text = "Levels: " + data.levelsUnlocked.ToString();
+            gameName.text = data.gameName.ToString();
+            deathCount.text = "Deaths: " + data.deathCount.ToString();
         }
     }
 

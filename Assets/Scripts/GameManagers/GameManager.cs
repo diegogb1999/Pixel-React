@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public static GameManager instance;
 
     public int levelsUnlocked = 1;
+    public string gameName = "";
+    public int deathCount = 0;
 
     [SerializeField] private Animator transitionAnim;
 
@@ -52,11 +54,15 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         this.levelsUnlocked = data.levelsUnlocked;
+        //this.gameName = data.gameName;
+        //this.deathCount = data.deathCount;
     }
 
     public void SaveData(GameData data)
     {
-         data.levelsUnlocked = this.levelsUnlocked;
+        data.levelsUnlocked = this.levelsUnlocked;
+        //data.gameName = this.gameName;
+        //data.deathCount = this.deathCount;
     }
 
 }

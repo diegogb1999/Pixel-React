@@ -30,6 +30,7 @@ public class FinishPointScript : MonoBehaviour, IDataPersistence
         if (currentSceneIndex == GameManager.instance.levelsUnlocked)
         {
             DataPersistenceManager.instance.UnlockLevel();
+
             //GameManager.instance.levelsUnlocked++;
             //DataPersistenceManager.instance.gameData.levelsUnlocked = GameManager.instance.levelsUnlocked;
             //DataPersistenceManager.instance.SaveGame(); // Guardar el juego cada vez que se desbloquee un nuevo nivel
@@ -60,10 +61,14 @@ public class FinishPointScript : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         GameManager.instance.levelsUnlocked = data.levelsUnlocked;
+        //GameManager.instance.gameName = data.gameName;
+        //GameManager.instance.deathCount = data.deathCount;
     }
 
     public void SaveData(GameData data)
     {
         data.levelsUnlocked = GameManager.instance.levelsUnlocked;
+        //data.gameName = GameManager.instance.gameName;
+        //data.deathCount = GameManager.instance.deathCount;
     }
 }

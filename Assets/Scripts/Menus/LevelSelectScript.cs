@@ -50,8 +50,13 @@ public class LevelSelectScript : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         levelsUnlocked = data.levelsUnlocked;
+        //GameManager.instance.gameName = data.gameName;
+        //GameManager.instance.deathCount = data.deathCount;
         UpdateButtons();
         Debug.Log($"Cargando datos: Niveles Desbloqueados = {levelsUnlocked}");
+        Debug.Log($"Cargando datos: Nombre = {data.gameName}");
+        Debug.Log($"Cargando datos: Death Count = {data.deathCount}");
+
     }
 
     private void UpdateButtons()
@@ -72,8 +77,10 @@ public class LevelSelectScript : MonoBehaviour, IDataPersistence
 
     public void SaveData(GameData data)
     {
-        
-        data.levelsUnlocked = levelsUnlocked;
+
+        data.levelsUnlocked = this.levelsUnlocked;
+        //data.gameName = GameManager.instance.gameName;
+        //data.deathCount = GameManager.instance.deathCount;
         Debug.Log($"Guardando datos: Niveles Desbloqueados = {data.levelsUnlocked}");
     }
 }

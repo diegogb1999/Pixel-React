@@ -247,6 +247,8 @@ public class PlayerCombat : MonoBehaviour
         {
             isDead = true;
 
+            DataPersistenceManager.instance.sumDeath();
+
             animator.SetTrigger("isDead");
 
             runningSource.mute = true;
