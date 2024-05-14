@@ -18,7 +18,6 @@ public class SaveSlotsMenu : MonoBehaviour
 {
     [Header("Menu Navigation")]
     [SerializeField] private MainMenuScript mainMenu;
-    [SerializeField] private GameObject newGameText;
     [SerializeField] private GameObject saveGameText;
     [SerializeField] private GameObject loadTitle;
     [SerializeField] private GameObject levelsMenu;
@@ -147,20 +146,17 @@ public class SaveSlotsMenu : MonoBehaviour
         if (isNewGame.Equals("new"))
         {
             saveGameText.SetActive(false);
-            newGameText.SetActive(true);
             loadTitle.SetActive(false);
             
         }
         else if (isNewGame.Equals("save"))
         {
             saveGameText.SetActive(true);
-            newGameText.SetActive(false);
             loadTitle.SetActive(false);
         }
         else if (isNewGame.Equals("load"))
         {
             saveGameText.SetActive(false);
-            newGameText.SetActive(false);
             loadTitle.SetActive(true);
         }
 
