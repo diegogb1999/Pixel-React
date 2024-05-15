@@ -34,6 +34,10 @@ public class SaveSlotsMenu : MonoBehaviour
 
     private string userFolder;
 
+    private SaveSlotScript currentSaveSlot;
+
+    public EmailPassLogin authScript;
+
     private void Awake()
     {
         saveSlots = this.GetComponentsInChildren<SaveSlotScript>();
@@ -63,8 +67,11 @@ public class SaveSlotsMenu : MonoBehaviour
         this.DeActivateMenu();
     }
 
-    private void UploadSaveDataToFirebase(string profileId)
+    private void UploadSaveDataToFirebase()
     {
+        if (authScript.GetUserId() == null || currentSaveSlot == null) return;
+
+        string profileId = currentSaveSlot.GetProfileId();
         string localFile = Path.Combine(Application.persistentDataPath, profileId, "data.json");
         if (File.Exists(localFile))
         {
@@ -78,7 +85,7 @@ public class SaveSlotsMenu : MonoBehaviour
 
             // Aquí 'saves' es el nodo en la base de datos donde se guardarán los datos
             // Puedes cambiar 'saves' por el nombre del nodo que prefieras
-            var profileRef = dbReference.Child("GameData").Child(userFolder).Child(profileId);
+            var profileRef = dbReference.Child("GameData").Child(authScript.GetUserId()).Child(profileId);
 
             profileRef.SetRawJsonValueAsync(jsonData).ContinueWith(task =>
             {
@@ -111,7 +118,8 @@ public class SaveSlotsMenu : MonoBehaviour
             DataPersistenceManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
 
             // Sube el archivo a Firebase
-            UploadSaveDataToFirebase(saveSlot.GetProfileId());
+            //UploadSaveDataToFirebase(saveSlot.GetProfileId());
+            currentSaveSlot = saveSlot;
 
             levelsMenu.SetActive(true);
             DeActivateMenu();

@@ -5,6 +5,8 @@ using Firebase.Extensions;
 using Firebase.Auth;
 using Firebase;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using static System.Net.Mime.MediaTypeNames;
 
 public class EmailPassLogin : MonoBehaviour
 {
@@ -16,12 +18,14 @@ public class EmailPassLogin : MonoBehaviour
     [Header("Extra")]
     public TextMeshProUGUI logTxt;
     public TextMeshProUGUI usernameUI;
-    public GameObject loginUi, SuccessUi;
+    public UnityEngine.UI.Image userProfileImage; // Cambia a RawImage
+    public GameObject loginUi, SuccessUi, mask;
     public CanvasGroup logCanvasGroup;
     public GameObject LogInButton;
     public GameObject LogOutButton;
     private AuthResult result;
     private FirebaseAuth auth;
+    private Coroutine fadeOutCoroutine;
     #endregion
 
     public void Start()
@@ -34,7 +38,8 @@ public class EmailPassLogin : MonoBehaviour
             Debug.Log("User is logged in: " + user.UserId);
             LogOutButton.SetActive(true);
             LogInButton.SetActive(false);
-            usernameUI.text = user.DisplayName + "///" + user.UserId;
+            usernameUI.text = user.DisplayName;
+            StartCoroutine(DownloadImage("https://w.wallhaven.cc/full/zy/wallhaven-zyj8gw.jpg"));
         }
         else
         {
@@ -42,6 +47,7 @@ public class EmailPassLogin : MonoBehaviour
             LogOutButton.SetActive(false);
             LogInButton.SetActive(true);
             usernameUI.text = "";
+            mask.SetActive(false);
         }
     }
 
@@ -66,20 +72,41 @@ public class EmailPassLogin : MonoBehaviour
                 return;
             }
             result = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})",
-                result.User.DisplayName, result.User.UserId);
+            Debug.LogFormat("User signed in successfully: {0} ({1}) (({2}))",
+                result.User.DisplayName, result.User.UserId, result.User.PhotoUrl);
 
             if (result.User.IsValid())
             {
                 showLogMsg("Log in Successful");
                 loginUi.SetActive(false);
                 SuccessUi.SetActive(true);
-                usernameUI.text = result.User.DisplayName + "///" + result.User.UserId;
+                usernameUI.text = result.User.DisplayName;
+ 
                 LogOutButton.SetActive(true);
                 LogInButton.SetActive(false);
+
+                StartCoroutine(DownloadImage("https://w.wallhaven.cc/full/zy/wallhaven-zyj8gw.jpg"));
             }
 
         });
+    }
+
+private IEnumerator DownloadImage(string imageUrl)
+    {
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError(request.error);
+        }
+        else
+        {
+            Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            userProfileImage.sprite = sprite;
+        }
+        mask.SetActive(true);
     }
 
     public void showLoginUI()
@@ -95,15 +122,21 @@ public class EmailPassLogin : MonoBehaviour
         LogOutButton.SetActive(false);
         LogInButton.SetActive(true);
         usernameUI.text = "";
+        mask.SetActive(false);
     }
     #endregion
 
     #region extra
     void showLogMsg(string msg)
     {
+        if (fadeOutCoroutine != null)
+        {
+            StopCoroutine(fadeOutCoroutine);
+        }
+
         logTxt.text = msg;
         logCanvasGroup.alpha = 1;
-        StartCoroutine(FadeOutLogMsg(5f, 2f));
+        fadeOutCoroutine = StartCoroutine(FadeOutLogMsg(5f, 2f));
     }
 
     IEnumerator FadeOutLogMsg(float delay, float duration)
@@ -122,6 +155,21 @@ public class EmailPassLogin : MonoBehaviour
         }
 
         logCanvasGroup.alpha = 0;
+        fadeOutCoroutine = null;
+    }
+
+    public string GetUserId()
+    {
+        FirebaseUser user = auth.CurrentUser;
+        if (user != null && user.IsValid())
+        {
+            return user.UserId;
+        }
+        else
+        {
+            showLogMsg("No user is currently logged in.");
+            return null;
+        }
     }
     #endregion
 
