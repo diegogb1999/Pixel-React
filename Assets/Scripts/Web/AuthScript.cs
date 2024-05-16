@@ -127,7 +127,7 @@ private IEnumerator DownloadImage(string imageUrl)
     #endregion
 
     #region extra
-    void showLogMsg(string msg)
+    public void showLogMsg(string msg)
     {
         if (fadeOutCoroutine != null)
         {
@@ -136,7 +136,7 @@ private IEnumerator DownloadImage(string imageUrl)
 
         logTxt.text = msg;
         logCanvasGroup.alpha = 1;
-        fadeOutCoroutine = StartCoroutine(FadeOutLogMsg(5f, 2f));
+        fadeOutCoroutine = StartCoroutine(FadeOutLogMsg(2.5f, 1f));
     }
 
     IEnumerator FadeOutLogMsg(float delay, float duration)

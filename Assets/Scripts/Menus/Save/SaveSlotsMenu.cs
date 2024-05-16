@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Firebase.Database;
 using System.IO;
+using Unity.VisualScripting;
 
 public enum MenuMode
 {
@@ -16,6 +17,8 @@ public enum MenuMode
 
 public class SaveSlotsMenu : MonoBehaviour
 {
+    [SerializeField] private ConfirmationDialog confirmationDialog;
+
     [Header("Menu Navigation")]
     [SerializeField] private MainMenuScript mainMenu;
     [SerializeField] private GameObject saveGameText;
@@ -69,13 +72,16 @@ public class SaveSlotsMenu : MonoBehaviour
 
     private void UploadSaveDataToFirebase()
     {
-        if (authScript.GetUserId() == null || currentSaveSlot == null) return;
+        if (authScript.GetUserId() == null || currentSaveSlot == null)
+        {
+            Debug.LogError("Partida nula");
+            return;
+        }
 
-        string profileId = currentSaveSlot.GetProfileId();
+            string profileId = currentSaveSlot.GetProfileId();
         string localFile = Path.Combine(Application.persistentDataPath, profileId, "data.json");
         if (File.Exists(localFile))
         {
-
             // Leer primero el contenido del archivo
             string encryptedJsonData = File.ReadAllText(localFile);
             // Desencriptar los datos
@@ -83,19 +89,48 @@ public class SaveSlotsMenu : MonoBehaviour
 
             var dbReference = FirebaseDatabase.DefaultInstance.RootReference;
 
-            // Aquí 'saves' es el nodo en la base de datos donde se guardarán los datos
-            // Puedes cambiar 'saves' por el nombre del nodo que prefieras
-            var profileRef = dbReference.Child("GameData").Child(authScript.GetUserId()).Child(profileId);
+            string gameName = currentSaveSlot.GetGameName();
 
-            profileRef.SetRawJsonValueAsync(jsonData).ContinueWith(task =>
+            if (string.IsNullOrEmpty(gameName))
+            {
+                authScript.showLogMsg("Nombre nulo o vacio, no se subira la partida");
+                return;
+            }
+
+            // Verificar si ya existe una partida con el mismo nombre
+            dbReference.Child("GameData").Child(authScript.GetUserId()).Child(gameName).GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsFaulted)
                 {
-                    Debug.LogError("Error uploading data: " + task.Exception);
+                    Debug.LogError("Error checking data: " + task.Exception);
                 }
                 else if (task.IsCompleted)
                 {
-                    Debug.Log("Data uploaded successfully.");
+                    DataSnapshot snapshot = task.Result;
+                    if (snapshot.Exists)
+                    {
+                        Debug.Log("A save with this name already exists. Showing confirmation dialog.");
+
+                        // Aquí llamamos a Show en el hilo principal
+                        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                        {
+                            confirmationDialog.Show("A save with this name already exists. Do you want to overwrite it?",
+                            () => {
+                                
+                                UploadSaveDataToFirebase(jsonData, gameName); // Subir los datos si el usuario confirma
+                                authScript.showLogMsg("User confirmed overwrite");
+
+                            },
+                            () => {
+                                authScript.showLogMsg("Upload cancelled"); // Cancelar la subida si el usuario cancela
+                            });
+                        });
+                    }
+                    else
+                    {
+                        Debug.Log("No existing save found. Uploading data...");
+                        UploadSaveDataToFirebase(jsonData, gameName); // Subir los datos si no existe la partida
+                    }
                 }
             });
         }
@@ -104,25 +139,69 @@ public class SaveSlotsMenu : MonoBehaviour
             Debug.LogError("File not found: " + localFile);
         }
     }
-        public void OnSaveSlotClicked(SaveSlotScript saveSlot)
+
+    private void UploadSaveDataToFirebase(string jsonData, string gameName)
+    {
+        var dbReference = FirebaseDatabase.DefaultInstance.RootReference;
+        var profileRef = dbReference.Child("GameData").Child(authScript.GetUserId()).Child(gameName);
+
+        profileRef.SetRawJsonValueAsync(jsonData).ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Error uploading data: " + task.Exception);
+            }
+            else if (task.IsCompleted)
+            {
+                Debug.Log("Data uploaded successfully.");
+            }
+        });
+    }
+
+    public void OnSaveSlotClicked(SaveSlotScript saveSlot)
     {
         if (isNewGame.Equals("save"))
         {
-            DataPersistenceManager.instance.OverrideProfileId(saveSlot.GetProfileId());
-            UpdateSaveSlots();
+
+            confirmationDialog.Show("A save with this name already exists. Do you want to overwrite it?",
+                            () => {
+
+                                DataPersistenceManager.instance.OverrideProfileId(saveSlot.GetProfileId());
+                                currentSaveSlot = saveSlot;
+                                UpdateSaveSlots();
+                                authScript.showLogMsg("Game saved");
+
+                            },
+                            () => {
+                                authScript.showLogMsg("Save cancelled"); // Cancelar la subida si el usuario cancela
+                            });
+
+            
         }   
 
         if (isNewGame.Equals("load"))
         {
-            DisableMenuButtons();
-            DataPersistenceManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
 
-            // Sube el archivo a Firebase
-            //UploadSaveDataToFirebase(saveSlot.GetProfileId());
-            currentSaveSlot = saveSlot;
+            confirmationDialog.Show("A save with this name already exists. Do you want to overwrite it?",
+                            () => {
 
-            levelsMenu.SetActive(true);
-            DeActivateMenu();
+                                DisableMenuButtons();
+                                DataPersistenceManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
+
+                                // Sube el archivo a Firebase
+                                //UploadSaveDataToFirebase(saveSlot.GetProfileId());
+                                currentSaveSlot = saveSlot;
+
+                                levelsMenu.SetActive(true);
+                                DeActivateMenu();
+                                authScript.showLogMsg("Game loaded");
+
+                            },
+                            () => {
+                                authScript.showLogMsg("Load cancelled"); // Cancelar la subida si el usuario cancela
+                            });
+
+           
         }   
         
     }

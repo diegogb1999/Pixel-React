@@ -53,4 +53,9 @@ public class SaveSlotScript : MonoBehaviour
     {
         saveSlotButton.interactable = interactable;
     }
+
+    public string GetGameName()
+    {
+        return this.gameName.text;
+    }
 }

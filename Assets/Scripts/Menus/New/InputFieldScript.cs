@@ -11,6 +11,8 @@ public class InputFieldScript : MonoBehaviour
     [Header("Game Name Input")]
     [SerializeField] private TMP_InputField gameNameInputField;
 
+    public EmailPassLogin authScript;
+
 
     public void setGameName()
     {
@@ -23,7 +25,7 @@ public class InputFieldScript : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Game name is empty. Please enter a name.");
+            authScript.showLogMsg("Game name is empty. Please enter a name.");
         }
     }
 }
