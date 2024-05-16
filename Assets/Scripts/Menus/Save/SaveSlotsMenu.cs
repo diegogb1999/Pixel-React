@@ -72,11 +72,17 @@ public class SaveSlotsMenu : MonoBehaviour
 
     private void UploadSaveDataToFirebase()
     {
-        if (authScript.GetUserId() == null || currentSaveSlot == null)
+        if (authScript.GetUserId() == null)
         {
-            Debug.LogError("Partida nula");
+            authScript.showLogMsg("Log in if you want to upload a game");
             return;
         }
+        if (currentSaveSlot == null)
+        {
+            authScript.showLogMsg("Current game has no name attached to it, consider uploading another game");
+            return;
+        }
+        
 
             string profileId = currentSaveSlot.GetProfileId();
         string localFile = Path.Combine(Application.persistentDataPath, profileId, "data.json");
@@ -93,7 +99,7 @@ public class SaveSlotsMenu : MonoBehaviour
 
             if (string.IsNullOrEmpty(gameName))
             {
-                authScript.showLogMsg("Nombre nulo o vacio, no se subira la partida");
+                authScript.showLogMsg("Game needs a name to be uploaded");
                 return;
             }
 
@@ -118,7 +124,7 @@ public class SaveSlotsMenu : MonoBehaviour
                             () => {
                                 
                                 UploadSaveDataToFirebase(jsonData, gameName); // Subir los datos si el usuario confirma
-                                authScript.showLogMsg("User confirmed overwrite");
+                                authScript.showLogMsg("Game uploaded correctly");
 
                             },
                             () => {
@@ -177,12 +183,12 @@ public class SaveSlotsMenu : MonoBehaviour
                             });
 
             
-        }   
+        }
 
         if (isNewGame.Equals("load"))
         {
-
-            confirmationDialog.Show("A save with this name already exists. Do you want to overwrite it?",
+            string name = saveSlot.GetGameName();
+            confirmationDialog.Show("Do you want to load " + name + "?",
                             () => {
 
                                 DisableMenuButtons();
