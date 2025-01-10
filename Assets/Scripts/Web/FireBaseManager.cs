@@ -9,7 +9,7 @@ using Firebase.Database;
 
 public class FirebaseManager : MonoBehaviour
 {
-    private static string databaseURL = "https://ivandevwebsite-default-rtdb.europe-west1.firebasedatabase.app/GameData/"; // URL de tu base de datos
+    private static string databaseURL = ""; // URL de tu base de datos
 
     private void Start()
     {
