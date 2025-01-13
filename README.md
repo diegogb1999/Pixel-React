@@ -59,6 +59,5 @@ We want to deliver a fun, engaging experience for players, all while gaining val
 ## Contact
 
 - **Website**: [Pixel-React Game](https://pixel-react-game.web.app/home)
-- **GitHub Repository**: [GitHub - Pixel-React](https://github.com/your-github-repo)
 
 Thank you for visiting our page and playing our game! We hope you enjoy it as much as we enjoyed making it. See you soon!
