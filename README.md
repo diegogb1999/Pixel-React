@@ -38,10 +38,9 @@ Pixel-React is a 2D platformer set in the dark and mysterious world of Sorrownia
 ## Technologies Used
 
 Pixel-React was built with the following technologies:
-- **React**: Used for building the user interface.
-- **JavaScript/HTML5/CSS3**: Core web technologies for the game.
-- **Canvas API**: For rendering 2D graphics and creating the game world.
-- **Node.js**: For backend functionality and managing game logic.
+- **Unity**: Game engine.
+- **C#**: Language used to perform the development process.
+- **Firebase**: For backend functionality, auth system and database connection.
 
 ## About Us
 
@@ -52,9 +51,8 @@ We want to deliver a fun, engaging experience for players, all while gaining val
 
 ## Credits
 
-- **Game Development Team**: [Your Team Names]
-- **Music and Sound Effects**: [Names of music composers or sound designers, if any]
-- **Special Thanks**: To everyone who supported and encouraged us during the development of this game.
+- **Game Development Team**: Iván Villalba, DiegoDB.
+- **Special Thanks**: Alejandro Nieto.
 
 ## Contact
 
