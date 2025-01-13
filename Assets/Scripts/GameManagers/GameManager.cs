@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     [SerializeField] private Animator transitionAnim;
 
-
     private void Awake()
     {
         if (instance == null)
