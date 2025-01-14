@@ -51,7 +51,7 @@ We want to deliver a fun, engaging experience for players, all while gaining val
 
 ## Credits
 
-- **Game Development Team**: Iván Villalba, DiegoDB.
+- **Game Development Team**: Iván Villalba, DiegoGB.
 - **Special Thanks**: Alejandro Nieto.
 
 ## Contact
